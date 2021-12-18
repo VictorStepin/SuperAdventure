@@ -37,7 +37,6 @@ namespace SuperAdventure
             this.lblGold = new System.Windows.Forms.Label();
             this.lblExperience = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
-            this.btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -112,22 +111,11 @@ namespace SuperAdventure
             this.lblLevel.TabIndex = 0;
             this.lblLevel.Text = "0";
             // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(12, 92);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(94, 29);
-            this.btnTest.TabIndex = 1;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(406, 275);
-            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -153,7 +141,6 @@ namespace SuperAdventure
         private System.Windows.Forms.Label lblGold;
         private System.Windows.Forms.Label lblExperience;
         private System.Windows.Forms.Label lblLevel;
-        private System.Windows.Forms.Button btnTest;
     }
 }
 
