@@ -11,13 +11,7 @@ namespace SuperAdventure
         {
             InitializeComponent();
 
-            _player = new Player();
-
-            _player.MaximumHitPoints = 100;
-            _player.CurrentHitPoints = _player.MaximumHitPoints;
-            _player.Gold = 1703;
-            _player.ExperiencePoints = 0;
-            _player.Level = 1;
+            _player = new Player(100, 100, 1703, 0, 1);
 
             Location location = new Location(1, "Home", "This is your house.");
 
