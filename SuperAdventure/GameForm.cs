@@ -15,7 +15,7 @@ namespace SuperAdventure
 
             _player.MaximumHitPoints = 100;
             _player.CurrentHitPoints = _player.MaximumHitPoints;
-            _player.Gold = 1073;
+            _player.Gold = 1703;
             _player.ExperiencePoints = 0;
             _player.Level = 1;
 
