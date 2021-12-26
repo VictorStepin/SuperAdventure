@@ -1,4 +1,6 @@
-﻿namespace Engine
+﻿using System.Collections.Generic;
+
+namespace Engine
 {
     public class Monster : LivingCreature
     {
@@ -6,6 +8,7 @@
         public string Name { get; set; }
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
+        public List<LootItem> LootTable { get; set; }
 
         public Monster(int id, string name, int currentHitPoints, int maximumHitPoints, int rewardExperiencePoints, int rewardGold)
             : base(currentHitPoints, maximumHitPoints)
@@ -14,6 +17,7 @@
             Name = name;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
+            LootTable = new List<LootItem>();
         }
     }
 }
