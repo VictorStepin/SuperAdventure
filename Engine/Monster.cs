@@ -6,15 +6,17 @@ namespace Engine
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public int Damage { get; set; }
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
         public List<LootItem> LootTable { get; set; }
 
-        public Monster(int id, string name, int currentHitPoints, int maximumHitPoints, int rewardExperiencePoints, int rewardGold)
+        public Monster(int id, string name, int damage, int currentHitPoints, int maximumHitPoints, int rewardExperiencePoints, int rewardGold)
             : base(currentHitPoints, maximumHitPoints)
         {
             ID = id;
             Name = name;
+            Damage = damage;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
             LootTable = new List<LootItem>();
