@@ -51,6 +51,9 @@ namespace SuperAdventure
             this.btnUseWeapon = new System.Windows.Forms.Button();
             this.btnUsePotion = new System.Windows.Forms.Button();
             this.dgvQuests = new System.Windows.Forms.DataGridView();
+            this.questName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             this.SuspendLayout();
@@ -160,6 +163,7 @@ namespace SuperAdventure
             this.btnNorth.TabIndex = 2;
             this.btnNorth.Text = "N";
             this.btnNorth.UseVisualStyleBackColor = true;
+            this.btnNorth.Click += new System.EventHandler(this.btnNorth_Click);
             // 
             // btnSouth
             // 
@@ -169,6 +173,7 @@ namespace SuperAdventure
             this.btnSouth.TabIndex = 2;
             this.btnSouth.Text = "S";
             this.btnSouth.UseVisualStyleBackColor = true;
+            this.btnSouth.Click += new System.EventHandler(this.btnSouth_Click);
             // 
             // btnEast
             // 
@@ -178,6 +183,7 @@ namespace SuperAdventure
             this.btnEast.TabIndex = 2;
             this.btnEast.Text = "E";
             this.btnEast.UseVisualStyleBackColor = true;
+            this.btnEast.Click += new System.EventHandler(this.btnEast_Click);
             // 
             // btnWest
             // 
@@ -187,6 +193,7 @@ namespace SuperAdventure
             this.btnWest.TabIndex = 2;
             this.btnWest.Text = "W";
             this.btnWest.UseVisualStyleBackColor = true;
+            this.btnWest.Click += new System.EventHandler(this.btnWest_Click);
             // 
             // rtbLocationInfo
             // 
@@ -246,6 +253,7 @@ namespace SuperAdventure
             this.btnUseWeapon.TabIndex = 6;
             this.btnUseWeapon.Text = "Use weapon";
             this.btnUseWeapon.UseVisualStyleBackColor = true;
+            this.btnUseWeapon.Click += new System.EventHandler(this.btnUseWeapon_Click);
             // 
             // btnUsePotion
             // 
@@ -255,6 +263,7 @@ namespace SuperAdventure
             this.btnUsePotion.TabIndex = 6;
             this.btnUsePotion.Text = "Use potion";
             this.btnUsePotion.UseVisualStyleBackColor = true;
+            this.btnUsePotion.Click += new System.EventHandler(this.btnUsePotion_Click);
             // 
             // dgvQuests
             // 
@@ -262,6 +271,10 @@ namespace SuperAdventure
             this.dgvQuests.AllowUserToDeleteRows = false;
             this.dgvQuests.AllowUserToResizeColumns = false;
             this.dgvQuests.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvQuests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.questName,
+            this.description,
+            this.completed});
             this.dgvQuests.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvQuests.Enabled = false;
             this.dgvQuests.Location = new System.Drawing.Point(12, 278);
@@ -272,6 +285,30 @@ namespace SuperAdventure
             this.dgvQuests.RowHeadersWidth = 51;
             this.dgvQuests.Size = new System.Drawing.Size(300, 180);
             this.dgvQuests.TabIndex = 1;
+            // 
+            // questName
+            // 
+            this.questName.HeaderText = "Name";
+            this.questName.MinimumWidth = 6;
+            this.questName.Name = "questName";
+            this.questName.ReadOnly = true;
+            this.questName.Width = 125;
+            // 
+            // description
+            // 
+            this.description.HeaderText = "Description";
+            this.description.MinimumWidth = 6;
+            this.description.Name = "description";
+            this.description.ReadOnly = true;
+            this.description.Width = 125;
+            // 
+            // completed
+            // 
+            this.completed.HeaderText = "Completed";
+            this.completed.MinimumWidth = 6;
+            this.completed.Name = "completed";
+            this.completed.ReadOnly = true;
+            this.completed.Width = 125;
             // 
             // GameForm
             // 
@@ -333,6 +370,9 @@ namespace SuperAdventure
         private System.Windows.Forms.Button btnUseWeapon;
         private System.Windows.Forms.Button btnUsePotion;
         private System.Windows.Forms.DataGridView dgvQuests;
+        private System.Windows.Forms.DataGridViewTextBoxColumn questName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completed;
     }
 }
 
