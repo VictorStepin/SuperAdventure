@@ -54,6 +54,8 @@ namespace SuperAdventure
             this.questName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.completed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             this.SuspendLayout();
@@ -144,6 +146,9 @@ namespace SuperAdventure
             this.dgvInventory.AllowUserToDeleteRows = false;
             this.dgvInventory.AllowUserToResizeColumns = false;
             this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInventory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.itemName,
+            this.itemQuantity});
             this.dgvInventory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvInventory.Enabled = false;
             this.dgvInventory.Location = new System.Drawing.Point(12, 92);
@@ -310,6 +315,22 @@ namespace SuperAdventure
             this.completed.ReadOnly = true;
             this.completed.Width = 125;
             // 
+            // itemName
+            // 
+            this.itemName.HeaderText = "Name";
+            this.itemName.MinimumWidth = 6;
+            this.itemName.Name = "itemName";
+            this.itemName.ReadOnly = true;
+            this.itemName.Width = 125;
+            // 
+            // itemQuantity
+            // 
+            this.itemQuantity.HeaderText = "Quantity";
+            this.itemQuantity.MinimumWidth = 6;
+            this.itemQuantity.Name = "itemQuantity";
+            this.itemQuantity.ReadOnly = true;
+            this.itemQuantity.Width = 125;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -373,6 +394,8 @@ namespace SuperAdventure
         private System.Windows.Forms.DataGridViewTextBoxColumn questName;
         private System.Windows.Forms.DataGridViewTextBoxColumn description;
         private System.Windows.Forms.DataGridViewTextBoxColumn completed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn itemName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn itemQuantity;
     }
 }
 

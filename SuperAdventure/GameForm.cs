@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using Engine;
 
 namespace SuperAdventure
@@ -12,10 +13,79 @@ namespace SuperAdventure
             InitializeComponent();
 
             _player = new Player(100, 100, 0, 0, 1);
-            
+            AddItemsToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1);
+
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
 
             UpdateUI();
+        }
+
+        public void MoveTo(Location locationToMove)
+        {
+            if (locationToMove.ItemRequiredToEnter != null)
+            {
+                bool playerHaveRequiredItem = false;
+                foreach (var invenoryItem in _player.Inventory)
+                {
+                    if (invenoryItem.Details.ID == locationToMove.ItemRequiredToEnter.ID)
+                    {
+                        playerHaveRequiredItem = true;
+                        break;
+                    }
+                }
+
+                if (!playerHaveRequiredItem)
+                {
+                    PrintMessage($"Для прохода в \"{locationToMove.Name}\" необходим предмет: {locationToMove.ItemRequiredToEnter.Name}");
+                    return;
+                }
+            }
+
+            _player.CurrentLocation = locationToMove;
+
+            _player.CurrentHitPoints = _player.MaximumHitPoints;
+
+            if (locationToMove.QuestAvailableHere != null)
+            {
+                bool playerAlreadyHasQuest = false;
+                foreach (var playerQuest in _player.Quests)
+                {
+                    if (playerQuest.Details.ID == locationToMove.QuestAvailableHere.ID)
+                    {
+                        playerAlreadyHasQuest = true;
+                        break;
+                    }
+                }
+
+                if (!playerAlreadyHasQuest)
+                {
+                    var newQuest = new PlayerQuest(locationToMove.QuestAvailableHere);
+                    _player.Quests.Add(newQuest);
+                    dgvQuests.Rows.Add(new string[] { newQuest.Details.Name, newQuest.Details.Description, newQuest.IsCompleted.ToString() });
+                    PrintMessage($"Вы получили квест: \"{newQuest.Details.Name}\"");
+                }
+                else
+                {
+                    // Логика для проверки выполнил ли игрок квест или нет
+                }
+            }
+
+            if (locationToMove.MonsterLivingHere != null)
+            {
+                PrintMessage($"You see a monster: {locationToMove.MonsterLivingHere.Name}");
+
+                cbxWeapons.Enabled = true;
+                btnUseWeapon.Enabled = true;
+                cbxPotions.Enabled = true;
+                btnUsePotion.Enabled = true;
+            }
+            else
+            {
+                cbxWeapons.Enabled = false;
+                btnUseWeapon.Enabled = false;
+                cbxPotions.Enabled = false;
+                btnUsePotion.Enabled = false;
+            }
         }
 
         private void UpdateUI()
@@ -33,49 +103,19 @@ namespace SuperAdventure
             btnWest.Enabled = _player.CurrentLocation.LocationToWest != null ? true : false;
         }
 
-        public void MoveTo(Location locationToMove)
+        private void AddItemsToInventory(Item itemToAdd, int quantity)
         {
-            if (locationToMove.ItemRequiredToEnter != null)
+            _player.Inventory.Add(new InventoryItem(itemToAdd, quantity));
+            dgvInventory.Rows.Add(new string[] { itemToAdd.Name, quantity.ToString() });
+            if (itemToAdd is Weapon)
             {
-                bool playerHaveRequiredItem = false;
-                foreach (var ii in _player.Inventory)
-                {
-                    if (ii.Details.ID == locationToMove.ItemRequiredToEnter.ID)
-                    {
-                        playerHaveRequiredItem = true;
-                        break;
-                    }
-                }
-
-                if (!playerHaveRequiredItem)
-                {
-                    rtbMessages.Text += $"Для прохода в \"{locationToMove.Name}\" необходим предмет: {locationToMove.ItemRequiredToEnter.Name}";
-                    return;
-                }
+                cbxWeapons.Items.Add(itemToAdd.Name);
             }
+        }
 
-            _player.CurrentLocation = locationToMove;
-
-            _player.CurrentHitPoints = _player.MaximumHitPoints;
-
-            if (locationToMove.QuestAvailableHere != null)
-            {
-                bool playerAlreadyHasQuest = false;
-                foreach (var pq in _player.Quests)
-                {
-                    if (pq.Details.ID == locationToMove.QuestAvailableHere.ID)
-                    {
-                        playerAlreadyHasQuest = true;
-                        break;
-                    }
-                }
-
-                if (!playerAlreadyHasQuest)
-                {
-                    _player.Quests.Add(new PlayerQuest(locationToMove.QuestAvailableHere));
-                    // Добавление квеста в грид квестов в интерфейс
-                }
-            }
+        private void PrintMessage(string message)
+        {
+            rtbMessages.Text += message + Environment.NewLine;
         }
 
         private void btnNorth_Click(object sender, System.EventArgs e)
@@ -104,7 +144,7 @@ namespace SuperAdventure
 
         private void btnUseWeapon_Click(object sender, System.EventArgs e)
         {
-
+            
         }
 
         private void btnUsePotion_Click(object sender, System.EventArgs e)
