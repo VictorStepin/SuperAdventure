@@ -7,6 +7,7 @@ namespace SuperAdventure
     public partial class GameForm : Form
     {
         private Player _player;
+        private Monster _currentMonster;
 
         public GameForm()
         {
@@ -16,8 +17,6 @@ namespace SuperAdventure
             AddItemsToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1);
 
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
-
-            UpdateUI();
         }
 
         public void MoveTo(Location locationToMove)
@@ -72,12 +71,25 @@ namespace SuperAdventure
 
             if (locationToMove.MonsterLivingHere != null)
             {
-                PrintMessage($"You see a monster: {locationToMove.MonsterLivingHere.Name}");
+                PrintMessage($"Вы видете монстра: {locationToMove.MonsterLivingHere.Name}. У него {locationToMove.MonsterLivingHere.CurrentHitPoints} HP.");
 
                 cbxWeapons.Enabled = true;
                 btnUseWeapon.Enabled = true;
                 cbxPotions.Enabled = true;
                 btnUsePotion.Enabled = true;
+
+                var standardMonster = locationToMove.MonsterLivingHere;
+                _currentMonster = new Monster(standardMonster.ID,
+                                              standardMonster.Name,
+                                              standardMonster.Damage,
+                                              standardMonster.CurrentHitPoints,
+                                              standardMonster.MaximumHitPoints,
+                                              standardMonster.RewardExperiencePoints,
+                                              standardMonster.RewardGold);
+                foreach (var lootItem in standardMonster.LootTable)
+                {
+                    _currentMonster.LootTable.Add(lootItem);
+                }
             }
             else
             {
@@ -85,7 +97,11 @@ namespace SuperAdventure
                 btnUseWeapon.Enabled = false;
                 cbxPotions.Enabled = false;
                 btnUsePotion.Enabled = false;
+
+                _currentMonster = null;
             }
+
+            UpdateUI();
         }
 
         private void UpdateUI()
@@ -105,11 +121,33 @@ namespace SuperAdventure
 
         private void AddItemsToInventory(Item itemToAdd, int quantity)
         {
-            _player.Inventory.Add(new InventoryItem(itemToAdd, quantity));
-            dgvInventory.Rows.Add(new string[] { itemToAdd.Name, quantity.ToString() });
+            var playerAlreadyHasItem = false;
+            foreach (var inventoryItem in _player.Inventory)
+            {
+                if (inventoryItem.Details == itemToAdd)
+                {
+                    playerAlreadyHasItem = true;
+                    inventoryItem.Quantity += quantity;
+                    break;
+                }
+            }
+
+            if (!playerAlreadyHasItem)
+            {
+                _player.Inventory.Add(new InventoryItem(itemToAdd, quantity));
+            }
+            
+            PrintMessage($"Вы получили предмет: {itemToAdd.Name} x{quantity}.");
+
+            dgvInventory.Rows.Clear();
+            foreach (var invenoryItem in _player.Inventory)
+            {
+                dgvInventory.Rows.Add(new string[] { invenoryItem.Details.Name, invenoryItem.Quantity.ToString() });
+            }
+
             if (itemToAdd is Weapon)
             {
-                cbxWeapons.Items.Add(itemToAdd.Name);
+                cbxWeapons.Items.Add(itemToAdd);
             }
         }
 
@@ -121,30 +159,68 @@ namespace SuperAdventure
         private void btnNorth_Click(object sender, System.EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToNorth);
-            UpdateUI();
         }
 
         private void btnEast_Click(object sender, System.EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToEast);
-            UpdateUI();
         }
 
         private void btnSouth_Click(object sender, System.EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToSouth);
-            UpdateUI();
         }
 
         private void btnWest_Click(object sender, System.EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToWest);
-            UpdateUI();
         }
 
         private void btnUseWeapon_Click(object sender, System.EventArgs e)
         {
-            
+            var currentWeapon = (Weapon)cbxWeapons.SelectedItem;
+
+            if (currentWeapon == null)
+            {
+                PrintMessage("Выберите оружие.");
+                return;
+            }
+
+            var damage = RNG.NumberBetween(currentWeapon.MinimumDamage, currentWeapon.MaximumDamage);
+            _currentMonster.CurrentHitPoints -= damage;
+
+            if (_currentMonster.CurrentHitPoints > 0)
+            {
+                PrintMessage($"Вы нанесли монстру {damage} урона. У монстра сейчас {_currentMonster.CurrentHitPoints} HP.");
+
+                _player.CurrentHitPoints -= _currentMonster.Damage;
+                PrintMessage($"Монстр нанес вам {_currentMonster.Damage} урона.");
+                UpdateUI();
+
+                if (_player.CurrentHitPoints <= 0)
+                {
+                    PrintMessage("Вы умерли.");
+                    MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
+                    return;
+                }
+            }
+            else
+            {
+                PrintMessage($"Вы нанесли монстру {damage} урона. Монстр убит.");
+                
+                _player.Gold += _currentMonster.RewardGold;
+                PrintMessage($"Вы получили {_currentMonster.RewardGold} золота.");
+
+                _player.ExperiencePoints += _currentMonster.RewardExperiencePoints;
+                PrintMessage($"Вы получили {_currentMonster.RewardExperiencePoints} опыта.");
+
+                foreach (var lootItem in _currentMonster.LootTable)
+                {
+                    AddItemsToInventory(lootItem.Details, 1);
+                }
+
+                MoveTo(_player.CurrentLocation);
+            }
         }
 
         private void btnUsePotion_Click(object sender, System.EventArgs e)
