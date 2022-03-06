@@ -46,10 +46,12 @@ namespace SuperAdventure
 
             if (locationToMove.QuestAvailableHere != null)
             {
+                var currentLocationQuest = locationToMove.QuestAvailableHere;
+                
                 bool playerAlreadyHasQuest = false;
                 foreach (var playerQuest in _player.Quests)
                 {
-                    if (playerQuest.Details.ID == locationToMove.QuestAvailableHere.ID)
+                    if (playerQuest.Details.ID == currentLocationQuest.ID)
                     {
                         playerAlreadyHasQuest = true;
                         break;
@@ -58,14 +60,70 @@ namespace SuperAdventure
 
                 if (!playerAlreadyHasQuest)
                 {
-                    var newQuest = new PlayerQuest(locationToMove.QuestAvailableHere);
-                    _player.Quests.Add(newQuest);
-                    dgvQuests.Rows.Add(new string[] { newQuest.Details.Name, newQuest.Details.Description, newQuest.IsCompleted.ToString() });
-                    PrintMessage($"Вы получили квест: \"{newQuest.Details.Name}\"");
+                    var newPlayerQuest = new PlayerQuest(currentLocationQuest);
+                    _player.Quests.Add(newPlayerQuest);
+                    dgvQuests.Rows.Add(new string[] { newPlayerQuest.Details.Name, newPlayerQuest.Details.Description, newPlayerQuest.IsCompleted.ToString() });
+                    PrintMessage($"Вы получили квест: \"{newPlayerQuest.Details.Name}\"");
                 }
                 else
                 {
-                    // Логика для проверки выполнил ли игрок квест или нет
+                    var questCompletionItems = currentLocationQuest.QuestCompletionItems;
+                    var playerHasItemsToCompleteQuest = false;
+                    var itemsMatchCount = 0;
+                    foreach (var questCompletionItem in questCompletionItems)
+                    {
+                        foreach (var inventoryItem in _player.Inventory)
+                        {
+                            if (questCompletionItem.Details.ID == inventoryItem.Details.ID &&
+                                questCompletionItem.Quantity == inventoryItem.Quantity)
+                            {
+                                itemsMatchCount++;
+                            }
+                        }
+                    }
+
+                    if (itemsMatchCount == questCompletionItems.Count)
+                        playerHasItemsToCompleteQuest = true;
+
+                    if (playerHasItemsToCompleteQuest)
+                    {
+                        _player.ExperiencePoints += currentLocationQuest.RewardExperiencePoints;
+                        _player.Gold += currentLocationQuest.RewardGold;
+                        AddItemsToInventory(currentLocationQuest.RewardItem, 1);
+
+                        foreach (var questCompletionItem in questCompletionItems)
+                        {
+                            foreach (var inventoryItem in _player.Inventory)
+                            {
+                                if (questCompletionItem.Details.ID == inventoryItem.Details.ID)
+                                {
+                                    inventoryItem.Quantity -= questCompletionItem.Quantity;
+                                    dgvInventory.Rows.Clear();
+                                    foreach (var ii in _player.Inventory)
+                                    {
+                                        dgvInventory.Rows.Add(new string[] { ii.Details.Name, ii.Quantity.ToString() });
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (var playerQuest in _player.Quests)
+                        {
+                            if (playerQuest.Details.ID == currentLocationQuest.ID)
+                            {
+                                playerQuest.IsCompleted = true;
+                                dgvQuests.Rows.Clear();
+                                foreach (var pq in _player.Quests)
+                                {
+                                    dgvQuests.Rows.Add(new string[] { pq.Details.Name, pq.Details.Description, pq.IsCompleted.ToString() });
+                                }
+                                
+                                break;
+                            }
+                        }
+
+                        PrintMessage($"Вы выполнили квест: {currentLocationQuest.Name}");
+                    }
                 }
             }
 
