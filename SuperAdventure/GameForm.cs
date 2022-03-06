@@ -15,6 +15,7 @@ namespace SuperAdventure
 
             _player = new Player(100, 100, 0, 0, 1);
             AddItemsToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1);
+            AddItemsToInventory(World.ItemByID(World.ITEM_ID_HEALING_POTION), 1);
 
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
         }
@@ -207,6 +208,10 @@ namespace SuperAdventure
             {
                 cbxWeapons.Items.Add(itemToAdd);
             }
+            else if (itemToAdd is HealingPotion)
+            {
+                cbxPotions.Items.Add(itemToAdd);
+            }
         }
 
         private void PrintMessage(string message)
@@ -283,7 +288,21 @@ namespace SuperAdventure
 
         private void btnUsePotion_Click(object sender, System.EventArgs e)
         {
+            var currentPotion = (HealingPotion)cbxPotions.SelectedItem;
 
+            if (currentPotion == null)
+            {
+                PrintMessage("Выберите зелье.");
+                return;
+            }
+
+            _player.CurrentHitPoints += currentPotion.AmountToHeal;
+            if (_player.CurrentHitPoints > _player.MaximumHitPoints)
+                _player.CurrentHitPoints = _player.MaximumHitPoints;
+
+            PrintMessage($"Вы использовали {currentPotion.Name}: +{currentPotion.AmountToHeal}HP.");
+
+            UpdateUI();
         }
     }
 }

@@ -9,5 +9,10 @@
         {
             AmountToHeal = amountToHeal;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
