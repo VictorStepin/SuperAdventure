@@ -15,26 +15,25 @@ namespace SuperAdventure
 
             _player = new Player(100, 100, 0, 0, 1);
             AddItemsToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1);
-            AddItemsToInventory(World.ItemByID(World.ITEM_ID_HEALING_POTION), 1);
 
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
         }
 
-        public void MoveTo(Location locationToMove)
+        private void MoveTo(Location locationToMove)
         {
             if (locationToMove.ItemRequiredToEnter != null)
             {
-                bool playerHaveRequiredItem = false;
+                bool playerHasRequiredItem = false;
                 foreach (var invenoryItem in _player.Inventory)
                 {
                     if (invenoryItem.Details.ID == locationToMove.ItemRequiredToEnter.ID)
                     {
-                        playerHaveRequiredItem = true;
+                        playerHasRequiredItem = true;
                         break;
                     }
                 }
 
-                if (!playerHaveRequiredItem)
+                if (!playerHasRequiredItem)
                 {
                     PrintMessage($"Для прохода в \"{locationToMove.Name}\" необходим предмет: {locationToMove.ItemRequiredToEnter.Name}");
                     return;
@@ -59,32 +58,35 @@ namespace SuperAdventure
                     }
                 }
 
-                if (!playerAlreadyHasQuest)
-                {
-                    var newPlayerQuest = new PlayerQuest(currentLocationQuest);
-                    _player.Quests.Add(newPlayerQuest);
-                    dgvQuests.Rows.Add(new string[] { newPlayerQuest.Details.Name, newPlayerQuest.Details.Description, newPlayerQuest.IsCompleted.ToString() });
-                    PrintMessage($"Вы получили квест: \"{newPlayerQuest.Details.Name}\"");
-                }
-                else
+                if (playerAlreadyHasQuest)
                 {
                     var questCompletionItems = currentLocationQuest.QuestCompletionItems;
-                    var playerHasItemsToCompleteQuest = false;
-                    var itemsMatchCount = 0;
+
+                    var playerHasItemsToCompleteQuest = true;
                     foreach (var questCompletionItem in questCompletionItems)
                     {
+                        var foundItemInInvenory = false;
                         foreach (var inventoryItem in _player.Inventory)
                         {
-                            if (questCompletionItem.Details.ID == inventoryItem.Details.ID &&
-                                questCompletionItem.Quantity == inventoryItem.Quantity)
+                            if (questCompletionItem.Details.ID == inventoryItem.Details.ID)
                             {
-                                itemsMatchCount++;
+                                foundItemInInvenory = true;
+                                if (inventoryItem.Quantity < questCompletionItem.Quantity)
+                                {
+                                    playerHasItemsToCompleteQuest = false;
+                                    break;
+                                }
+
+                                break;
                             }
                         }
-                    }
 
-                    if (itemsMatchCount == questCompletionItems.Count)
-                        playerHasItemsToCompleteQuest = true;
+                        if (!foundItemInInvenory)
+                        {
+                            playerHasItemsToCompleteQuest = false;
+                            break;
+                        }
+                    }
 
                     if (playerHasItemsToCompleteQuest)
                     {
@@ -99,11 +101,8 @@ namespace SuperAdventure
                                 if (questCompletionItem.Details.ID == inventoryItem.Details.ID)
                                 {
                                     inventoryItem.Quantity -= questCompletionItem.Quantity;
-                                    dgvInventory.Rows.Clear();
-                                    foreach (var ii in _player.Inventory)
-                                    {
-                                        dgvInventory.Rows.Add(new string[] { ii.Details.Name, ii.Quantity.ToString() });
-                                    }
+                                    
+                                    break;
                                 }
                             }
                         }
@@ -113,18 +112,20 @@ namespace SuperAdventure
                             if (playerQuest.Details.ID == currentLocationQuest.ID)
                             {
                                 playerQuest.IsCompleted = true;
-                                dgvQuests.Rows.Clear();
-                                foreach (var pq in _player.Quests)
-                                {
-                                    dgvQuests.Rows.Add(new string[] { pq.Details.Name, pq.Details.Description, pq.IsCompleted.ToString() });
-                                }
                                 
+
                                 break;
                             }
                         }
 
                         PrintMessage($"Вы выполнили квест: {currentLocationQuest.Name}");
                     }
+                }
+                else
+                {
+                    var newPlayerQuest = new PlayerQuest(currentLocationQuest);
+                    _player.Quests.Add(newPlayerQuest);
+                    PrintMessage($"Вы получили квест: \"{newPlayerQuest.Details.Name}\"");
                 }
             }
 
@@ -170,12 +171,27 @@ namespace SuperAdventure
             lblExperience.Text = _player.ExperiencePoints.ToString();
             lblLevel.Text = _player.Level.ToString();
 
+            dgvInventory.Rows.Clear();
+            foreach (var ii in _player.Inventory)
+            {
+                if (ii.Quantity > 0)
+                {
+                    dgvInventory.Rows.Add(new string[] { ii.Details.Name, ii.Quantity.ToString() });
+                }
+            }
+
+            dgvQuests.Rows.Clear();
+            foreach (var pq in _player.Quests)
+            {
+                dgvQuests.Rows.Add(new string[] { pq.Details.Name, pq.Details.Description, pq.IsCompleted.ToString() });
+            }
+
             rtbLocationInfo.Text = $"{_player.CurrentLocation.Name.ToUpper()}\n{_player.CurrentLocation.Description}";
 
-            btnNorth.Enabled = _player.CurrentLocation.LocationToNorth != null ? true : false;
-            btnEast.Enabled = _player.CurrentLocation.LocationToEast != null ? true : false;
-            btnSouth.Enabled = _player.CurrentLocation.LocationToSouth != null ? true : false;
-            btnWest.Enabled = _player.CurrentLocation.LocationToWest != null ? true : false;
+            btnNorth.Enabled = _player.CurrentLocation.LocationToNorth != null;
+            btnEast.Enabled = _player.CurrentLocation.LocationToEast != null;
+            btnSouth.Enabled = _player.CurrentLocation.LocationToSouth != null;
+            btnWest.Enabled = _player.CurrentLocation.LocationToWest != null;
         }
 
         private void AddItemsToInventory(Item itemToAdd, int quantity)
@@ -197,12 +213,6 @@ namespace SuperAdventure
             }
             
             PrintMessage($"Вы получили предмет: {itemToAdd.Name} x{quantity}.");
-
-            dgvInventory.Rows.Clear();
-            foreach (var invenoryItem in _player.Inventory)
-            {
-                dgvInventory.Rows.Add(new string[] { invenoryItem.Details.Name, invenoryItem.Quantity.ToString() });
-            }
 
             if (itemToAdd is Weapon)
             {
@@ -258,7 +268,6 @@ namespace SuperAdventure
 
                 _player.CurrentHitPoints -= _currentMonster.Damage;
                 PrintMessage($"Монстр нанес вам {_currentMonster.Damage} урона.");
-                UpdateUI();
 
                 if (_player.CurrentHitPoints <= 0)
                 {
@@ -284,6 +293,8 @@ namespace SuperAdventure
 
                 MoveTo(_player.CurrentLocation);
             }
+
+            UpdateUI();
         }
 
         private void btnUsePotion_Click(object sender, System.EventArgs e)
