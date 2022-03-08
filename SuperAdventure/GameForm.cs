@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Engine;
 
@@ -192,6 +193,50 @@ namespace SuperAdventure
             btnEast.Enabled = _player.CurrentLocation.LocationToEast != null;
             btnSouth.Enabled = _player.CurrentLocation.LocationToSouth != null;
             btnWest.Enabled = _player.CurrentLocation.LocationToWest != null;
+
+            var weapons = new List<Weapon>();
+            foreach (var ii in _player.Inventory)
+            {
+                if (ii.Details is Weapon && ii.Quantity > 0)
+                {
+                    weapons.Add((Weapon)ii.Details);
+                }
+            }
+
+            if (weapons.Count == 0)
+            {
+                cbxWeapons.Enabled = false;
+                btnUseWeapon.Enabled = false;
+            }
+            else
+            {
+                cbxWeapons.DataSource = weapons;
+                cbxWeapons.DisplayMember = "Name";
+                cbxWeapons.ValueMember = "ID";
+                cbxWeapons.SelectedIndex = 0;
+            }
+
+            var potions = new List<HealingPotion>();
+            foreach (var ii in _player.Inventory)
+            {
+                if (ii.Details is HealingPotion && ii.Quantity > 0)
+                {
+                    potions.Add((HealingPotion)ii.Details);
+                }
+            }
+
+            if (potions.Count == 0)
+            {
+                cbxPotions.Enabled = false;
+                btnUsePotion.Enabled = false;
+            }
+            else
+            {
+                cbxPotions.DataSource = potions;
+                cbxPotions.DisplayMember = "Name";
+                cbxPotions.ValueMember = "ID";
+                cbxPotions.SelectedIndex = 0;
+            }
         }
 
         private void AddItemsToInventory(Item itemToAdd, int quantity)
@@ -213,15 +258,6 @@ namespace SuperAdventure
             }
             
             PrintMessage($"Вы получили предмет: {itemToAdd.Name} x{quantity}.");
-
-            if (itemToAdd is Weapon)
-            {
-                cbxWeapons.Items.Add(itemToAdd);
-            }
-            else if (itemToAdd is HealingPotion)
-            {
-                cbxPotions.Items.Add(itemToAdd);
-            }
         }
 
         private void PrintMessage(string message)

@@ -11,10 +11,5 @@
             MinimumDamage = minimumDamage;
             MaximumDamage = maximumDamage;
         }
-
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }
