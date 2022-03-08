@@ -20,5 +20,96 @@ namespace Engine
             Inventory = new List<InventoryItem>();
             Quests = new List<PlayerQuest>();
         }
+
+        public bool HasRequiredItemToEnterLocation(Location location)
+        {
+            var itemRequiredToEnter = location.ItemRequiredToEnter;
+
+            if (itemRequiredToEnter == null)
+                return true;
+
+            foreach (var ii in Inventory)
+                if (ii.Details.ID == itemRequiredToEnter.ID)
+                    return true;
+
+            return false;
+        }
+
+        public bool HasQuest(Quest quest)
+        {
+            foreach (var pq in Quests)
+                if (pq.Details.ID == quest.ID)
+                    return true;
+
+            return false;
+        }
+
+        public bool HasAllCompletionItems(Quest quest)
+        {
+            foreach (var qci in quest.QuestCompletionItems)
+            {
+                var foundItemInInventory = false;
+                foreach (var ii in Inventory)
+                {
+                    if (qci.Details.ID == ii.Details.ID)
+                    {
+                        foundItemInInventory = true;
+                        if (ii.Quantity < qci.Quantity)
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                }
+
+                if (!foundItemInInventory)
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        public void RemoveQuestCompletionItems(Quest quest)
+        {
+            foreach (var qci in quest.QuestCompletionItems)
+            {
+                foreach (var ii in Inventory)
+                {
+                    if (qci.Details.ID == ii.Details.ID)
+                    {
+                        ii.Quantity -= qci.Quantity;
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void MarkQuestCompleted(Quest quest)
+        {
+            foreach (var pq in Quests)
+            {
+                if (pq.Details.ID == quest.ID)
+                {
+                    pq.IsCompleted = true;
+                    return;
+                }
+            }
+        }
+
+        public void AddItemToInventory(Item itemToAdd)
+        {
+            foreach (var ii in Inventory)
+            {
+                if (ii.Details.ID == itemToAdd.ID)
+                {
+                    ii.Quantity++;
+                    return;
+                }
+            }
+
+            Inventory.Add(new InventoryItem(itemToAdd, 1));
+        }
     }
 }

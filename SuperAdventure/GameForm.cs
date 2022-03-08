@@ -15,30 +15,17 @@ namespace SuperAdventure
             InitializeComponent();
 
             _player = new Player(100, 100, 0, 0, 1);
-            AddItemsToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1);
+            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
 
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
         }
 
         private void MoveTo(Location locationToMove)
         {
-            if (locationToMove.ItemRequiredToEnter != null)
+            if (!_player.HasRequiredItemToEnterLocation(locationToMove))
             {
-                bool playerHasRequiredItem = false;
-                foreach (var invenoryItem in _player.Inventory)
-                {
-                    if (invenoryItem.Details.ID == locationToMove.ItemRequiredToEnter.ID)
-                    {
-                        playerHasRequiredItem = true;
-                        break;
-                    }
-                }
-
-                if (!playerHasRequiredItem)
-                {
-                    PrintMessage($"Для прохода в \"{locationToMove.Name}\" необходим предмет: {locationToMove.ItemRequiredToEnter.Name}");
-                    return;
-                }
+                PrintMessage($"Для прохода в \"{locationToMove.Name}\" необходим предмет: {locationToMove.ItemRequiredToEnter.Name}");
+                return;
             }
 
             _player.CurrentLocation = locationToMove;
@@ -47,84 +34,27 @@ namespace SuperAdventure
 
             if (locationToMove.QuestAvailableHere != null)
             {
-                var currentLocationQuest = locationToMove.QuestAvailableHere;
-                
-                bool playerAlreadyHasQuest = false;
-                foreach (var playerQuest in _player.Quests)
+                var questInLocationToMove = locationToMove.QuestAvailableHere;
+
+                if (_player.HasQuest(questInLocationToMove))
                 {
-                    if (playerQuest.Details.ID == currentLocationQuest.ID)
+                    if (_player.HasAllCompletionItems(questInLocationToMove))
                     {
-                        playerAlreadyHasQuest = true;
-                        break;
-                    }
-                }
+                        _player.ExperiencePoints += questInLocationToMove.RewardExperiencePoints;
+                        _player.Gold += questInLocationToMove.RewardGold;
+                        _player.AddItemToInventory(questInLocationToMove.RewardItem);
+                        PrintMessage($"Вы получили предмет: {questInLocationToMove.RewardItem}.");
 
-                if (playerAlreadyHasQuest)
-                {
-                    var questCompletionItems = currentLocationQuest.QuestCompletionItems;
+                        _player.RemoveQuestCompletionItems(questInLocationToMove);
 
-                    var playerHasItemsToCompleteQuest = true;
-                    foreach (var questCompletionItem in questCompletionItems)
-                    {
-                        var foundItemInInvenory = false;
-                        foreach (var inventoryItem in _player.Inventory)
-                        {
-                            if (questCompletionItem.Details.ID == inventoryItem.Details.ID)
-                            {
-                                foundItemInInvenory = true;
-                                if (inventoryItem.Quantity < questCompletionItem.Quantity)
-                                {
-                                    playerHasItemsToCompleteQuest = false;
-                                    break;
-                                }
+                        _player.MarkQuestCompleted(questInLocationToMove);
 
-                                break;
-                            }
-                        }
-
-                        if (!foundItemInInvenory)
-                        {
-                            playerHasItemsToCompleteQuest = false;
-                            break;
-                        }
-                    }
-
-                    if (playerHasItemsToCompleteQuest)
-                    {
-                        _player.ExperiencePoints += currentLocationQuest.RewardExperiencePoints;
-                        _player.Gold += currentLocationQuest.RewardGold;
-                        AddItemsToInventory(currentLocationQuest.RewardItem, 1);
-
-                        foreach (var questCompletionItem in questCompletionItems)
-                        {
-                            foreach (var inventoryItem in _player.Inventory)
-                            {
-                                if (questCompletionItem.Details.ID == inventoryItem.Details.ID)
-                                {
-                                    inventoryItem.Quantity -= questCompletionItem.Quantity;
-                                    
-                                    break;
-                                }
-                            }
-                        }
-
-                        foreach (var playerQuest in _player.Quests)
-                        {
-                            if (playerQuest.Details.ID == currentLocationQuest.ID)
-                            {
-                                playerQuest.IsCompleted = true;
-                                
-
-                                break;
-                            }
-                        }
-
-                        PrintMessage($"Вы выполнили квест: {currentLocationQuest.Name}");
+                        PrintMessage($"Вы выполнили квест: {questInLocationToMove.Name}");
                     }
                 }
                 else
                 {
-                    var newPlayerQuest = new PlayerQuest(currentLocationQuest);
+                    var newPlayerQuest = new PlayerQuest(questInLocationToMove);
                     _player.Quests.Add(newPlayerQuest);
                     PrintMessage($"Вы получили квест: \"{newPlayerQuest.Details.Name}\"");
                 }
@@ -239,27 +169,6 @@ namespace SuperAdventure
             }
         }
 
-        private void AddItemsToInventory(Item itemToAdd, int quantity)
-        {
-            var playerAlreadyHasItem = false;
-            foreach (var inventoryItem in _player.Inventory)
-            {
-                if (inventoryItem.Details == itemToAdd)
-                {
-                    playerAlreadyHasItem = true;
-                    inventoryItem.Quantity += quantity;
-                    break;
-                }
-            }
-
-            if (!playerAlreadyHasItem)
-            {
-                _player.Inventory.Add(new InventoryItem(itemToAdd, quantity));
-            }
-            
-            PrintMessage($"Вы получили предмет: {itemToAdd.Name} x{quantity}.");
-        }
-
         private void PrintMessage(string message)
         {
             rtbMessages.Text += message + Environment.NewLine;
@@ -324,7 +233,8 @@ namespace SuperAdventure
 
                 foreach (var lootItem in _currentMonster.LootTable)
                 {
-                    AddItemsToInventory(lootItem.Details, 1);
+                    _player.AddItemToInventory(lootItem.Details);
+                    PrintMessage($"Вы получили предмет: {lootItem.Details}.");
                 }
 
                 MoveTo(_player.CurrentLocation);
