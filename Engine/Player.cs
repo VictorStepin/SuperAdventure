@@ -23,13 +23,11 @@ namespace Engine
 
         public bool HasRequiredItemToEnterLocation(Location location)
         {
-            var itemRequiredToEnter = location.ItemRequiredToEnter;
-
-            if (itemRequiredToEnter == null)
+            if (location.ItemRequiredToEnter == null)
                 return true;
 
             foreach (var ii in Inventory)
-                if (ii.Details.ID == itemRequiredToEnter.ID)
+                if (ii.Details.ID == location.ItemRequiredToEnter.ID)
                     return true;
 
             return false;
@@ -55,17 +53,13 @@ namespace Engine
                     {
                         foundItemInInventory = true;
                         if (ii.Quantity < qci.Quantity)
-                        {
                             return false;
-                        }
                     }
                     break;
                 }
 
                 if (!foundItemInInventory)
-                {
                     return false;
-                }
             }
             
             return true;

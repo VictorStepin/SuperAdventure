@@ -97,11 +97,30 @@ namespace SuperAdventure
 
         private void UpdateUI()
         {
+            UpdateUILocationInfo();
+            UpdateUIPlayerInfo();
+            UpdateUIInventoryList();
+            UpdateUIQuestList();
+            UpdateNavigationButtonsAccessibility();
+            UpdateWeaponsAccessibility();
+            UpdatePotionsAccessibility();
+        }
+
+        private void UpdateUILocationInfo()
+        {
+            rtbLocationInfo.Text = $"{_player.CurrentLocation.Name.ToUpper()}\n{_player.CurrentLocation.Description}";
+        }
+
+        private void UpdateUIPlayerInfo()
+        {
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
             lblGold.Text = _player.Gold.ToString();
             lblExperience.Text = _player.ExperiencePoints.ToString();
             lblLevel.Text = _player.Level.ToString();
+        }
 
+        private void UpdateUIInventoryList()
+        {
             dgvInventory.Rows.Clear();
             foreach (var ii in _player.Inventory)
             {
@@ -110,20 +129,19 @@ namespace SuperAdventure
                     dgvInventory.Rows.Add(new string[] { ii.Details.Name, ii.Quantity.ToString() });
                 }
             }
-
+        }
+        
+        private void UpdateUIQuestList()
+        {
             dgvQuests.Rows.Clear();
             foreach (var pq in _player.Quests)
             {
                 dgvQuests.Rows.Add(new string[] { pq.Details.Name, pq.Details.Description, pq.IsCompleted.ToString() });
             }
-
-            rtbLocationInfo.Text = $"{_player.CurrentLocation.Name.ToUpper()}\n{_player.CurrentLocation.Description}";
-
-            btnNorth.Enabled = _player.CurrentLocation.LocationToNorth != null;
-            btnEast.Enabled = _player.CurrentLocation.LocationToEast != null;
-            btnSouth.Enabled = _player.CurrentLocation.LocationToSouth != null;
-            btnWest.Enabled = _player.CurrentLocation.LocationToWest != null;
-
+        }
+        
+        private void UpdateWeaponsAccessibility()
+        {
             var weapons = new List<Weapon>();
             foreach (var ii in _player.Inventory)
             {
@@ -145,7 +163,10 @@ namespace SuperAdventure
                 cbxWeapons.ValueMember = "ID";
                 cbxWeapons.SelectedIndex = 0;
             }
-
+        }
+        
+        private void UpdatePotionsAccessibility()
+        {
             var potions = new List<HealingPotion>();
             foreach (var ii in _player.Inventory)
             {
@@ -167,6 +188,14 @@ namespace SuperAdventure
                 cbxPotions.ValueMember = "ID";
                 cbxPotions.SelectedIndex = 0;
             }
+        }
+        
+        private void UpdateNavigationButtonsAccessibility()
+        {
+            btnNorth.Enabled = _player.CurrentLocation.LocationToNorth != null;
+            btnEast.Enabled = _player.CurrentLocation.LocationToEast != null;
+            btnSouth.Enabled = _player.CurrentLocation.LocationToSouth != null;
+            btnWest.Enabled = _player.CurrentLocation.LocationToWest != null;
         }
 
         private void PrintMessage(string message)
