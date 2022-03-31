@@ -38,6 +38,8 @@ namespace SuperAdventure
             this.lblExperience = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
+            this.itemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnNorth = new System.Windows.Forms.Button();
             this.btnSouth = new System.Windows.Forms.Button();
             this.btnEast = new System.Windows.Forms.Button();
@@ -54,8 +56,6 @@ namespace SuperAdventure
             this.questName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.completed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             this.SuspendLayout();
@@ -108,7 +108,7 @@ namespace SuperAdventure
             this.lblHitPoints.Size = new System.Drawing.Size(17, 20);
             this.lblHitPoints.TabIndex = 0;
             this.lblHitPoints.Text = "0";
-            this.lblHitPoints.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblHitPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblGold
             // 
@@ -118,7 +118,7 @@ namespace SuperAdventure
             this.lblGold.Size = new System.Drawing.Size(17, 20);
             this.lblGold.TabIndex = 0;
             this.lblGold.Text = "0";
-            this.lblGold.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblGold.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblExperience
             // 
@@ -128,7 +128,7 @@ namespace SuperAdventure
             this.lblExperience.Size = new System.Drawing.Size(17, 20);
             this.lblExperience.TabIndex = 0;
             this.lblExperience.Text = "0";
-            this.lblExperience.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblExperience.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblLevel
             // 
@@ -138,31 +138,49 @@ namespace SuperAdventure
             this.lblLevel.Size = new System.Drawing.Size(17, 20);
             this.lblLevel.TabIndex = 0;
             this.lblLevel.Text = "0";
-            this.lblLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dgvInventory
             // 
             this.dgvInventory.AllowUserToAddRows = false;
             this.dgvInventory.AllowUserToDeleteRows = false;
             this.dgvInventory.AllowUserToResizeColumns = false;
+            this.dgvInventory.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInventory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.itemName,
             this.itemQuantity});
             this.dgvInventory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvInventory.Enabled = false;
-            this.dgvInventory.Location = new System.Drawing.Point(12, 92);
+            this.dgvInventory.Location = new System.Drawing.Point(12, 202);
             this.dgvInventory.MultiSelect = false;
             this.dgvInventory.Name = "dgvInventory";
             this.dgvInventory.ReadOnly = true;
             this.dgvInventory.RowHeadersVisible = false;
             this.dgvInventory.RowHeadersWidth = 51;
-            this.dgvInventory.Size = new System.Drawing.Size(300, 180);
+            this.dgvInventory.Size = new System.Drawing.Size(379, 289);
             this.dgvInventory.TabIndex = 1;
+            // 
+            // itemName
+            // 
+            this.itemName.HeaderText = "Name";
+            this.itemName.MinimumWidth = 6;
+            this.itemName.Name = "itemName";
+            this.itemName.ReadOnly = true;
+            this.itemName.Width = 200;
+            // 
+            // itemQuantity
+            // 
+            this.itemQuantity.HeaderText = "Quantity";
+            this.itemQuantity.MinimumWidth = 6;
+            this.itemQuantity.Name = "itemQuantity";
+            this.itemQuantity.ReadOnly = true;
+            this.itemQuantity.Width = 170;
             // 
             // btnNorth
             // 
-            this.btnNorth.Location = new System.Drawing.Point(387, 278);
+            this.btnNorth.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnNorth.Location = new System.Drawing.Point(535, 497);
             this.btnNorth.Name = "btnNorth";
             this.btnNorth.Size = new System.Drawing.Size(50, 50);
             this.btnNorth.TabIndex = 2;
@@ -172,7 +190,8 @@ namespace SuperAdventure
             // 
             // btnSouth
             // 
-            this.btnSouth.Location = new System.Drawing.Point(387, 408);
+            this.btnSouth.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSouth.Location = new System.Drawing.Point(535, 627);
             this.btnSouth.Name = "btnSouth";
             this.btnSouth.Size = new System.Drawing.Size(50, 50);
             this.btnSouth.TabIndex = 2;
@@ -182,7 +201,8 @@ namespace SuperAdventure
             // 
             // btnEast
             // 
-            this.btnEast.Location = new System.Drawing.Point(447, 345);
+            this.btnEast.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnEast.Location = new System.Drawing.Point(595, 564);
             this.btnEast.Name = "btnEast";
             this.btnEast.Size = new System.Drawing.Size(50, 50);
             this.btnEast.TabIndex = 2;
@@ -192,7 +212,8 @@ namespace SuperAdventure
             // 
             // btnWest
             // 
-            this.btnWest.Location = new System.Drawing.Point(327, 345);
+            this.btnWest.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnWest.Location = new System.Drawing.Point(475, 564);
             this.btnWest.Name = "btnWest";
             this.btnWest.Size = new System.Drawing.Size(50, 50);
             this.btnWest.TabIndex = 2;
@@ -202,32 +223,37 @@ namespace SuperAdventure
             // 
             // rtbLocationInfo
             // 
-            this.rtbLocationInfo.Location = new System.Drawing.Point(327, 6);
+            this.rtbLocationInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbLocationInfo.Location = new System.Drawing.Point(622, 6);
             this.rtbLocationInfo.Name = "rtbLocationInfo";
-            this.rtbLocationInfo.Size = new System.Drawing.Size(456, 83);
+            this.rtbLocationInfo.Size = new System.Drawing.Size(456, 48);
             this.rtbLocationInfo.TabIndex = 3;
             this.rtbLocationInfo.Text = "";
             // 
             // rtbMessages
             // 
-            this.rtbMessages.Location = new System.Drawing.Point(327, 92);
+            this.rtbMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMessages.Location = new System.Drawing.Point(622, 60);
             this.rtbMessages.Name = "rtbMessages";
-            this.rtbMessages.Size = new System.Drawing.Size(458, 180);
+            this.rtbMessages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.rtbMessages.Size = new System.Drawing.Size(458, 322);
             this.rtbMessages.TabIndex = 3;
             this.rtbMessages.Text = "";
             // 
             // cbxWeapons
             // 
+            this.cbxWeapons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxWeapons.FormattingEnabled = true;
-            this.cbxWeapons.Location = new System.Drawing.Point(505, 340);
+            this.cbxWeapons.Location = new System.Drawing.Point(800, 559);
             this.cbxWeapons.Name = "cbxWeapons";
             this.cbxWeapons.Size = new System.Drawing.Size(151, 28);
             this.cbxWeapons.TabIndex = 4;
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(505, 313);
+            this.label5.Location = new System.Drawing.Point(800, 532);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(109, 20);
             this.label5.TabIndex = 5;
@@ -235,16 +261,18 @@ namespace SuperAdventure
             // 
             // cbxPotions
             // 
+            this.cbxPotions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxPotions.FormattingEnabled = true;
-            this.cbxPotions.Location = new System.Drawing.Point(505, 402);
+            this.cbxPotions.Location = new System.Drawing.Point(800, 621);
             this.cbxPotions.Name = "cbxPotions";
             this.cbxPotions.Size = new System.Drawing.Size(151, 28);
             this.cbxPotions.TabIndex = 4;
             // 
             // label6
             // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(505, 375);
+            this.label6.Location = new System.Drawing.Point(800, 594);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 20);
             this.label6.TabIndex = 5;
@@ -252,7 +280,8 @@ namespace SuperAdventure
             // 
             // btnUseWeapon
             // 
-            this.btnUseWeapon.Location = new System.Drawing.Point(662, 313);
+            this.btnUseWeapon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUseWeapon.Location = new System.Drawing.Point(957, 532);
             this.btnUseWeapon.Name = "btnUseWeapon";
             this.btnUseWeapon.Size = new System.Drawing.Size(123, 55);
             this.btnUseWeapon.TabIndex = 6;
@@ -262,7 +291,8 @@ namespace SuperAdventure
             // 
             // btnUsePotion
             // 
-            this.btnUsePotion.Location = new System.Drawing.Point(662, 375);
+            this.btnUsePotion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUsePotion.Location = new System.Drawing.Point(957, 594);
             this.btnUsePotion.Name = "btnUsePotion";
             this.btnUsePotion.Size = new System.Drawing.Size(123, 55);
             this.btnUsePotion.TabIndex = 6;
@@ -275,6 +305,7 @@ namespace SuperAdventure
             this.dgvQuests.AllowUserToAddRows = false;
             this.dgvQuests.AllowUserToDeleteRows = false;
             this.dgvQuests.AllowUserToResizeColumns = false;
+            this.dgvQuests.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvQuests.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQuests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.questName,
@@ -282,13 +313,13 @@ namespace SuperAdventure
             this.completed});
             this.dgvQuests.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvQuests.Enabled = false;
-            this.dgvQuests.Location = new System.Drawing.Point(12, 278);
+            this.dgvQuests.Location = new System.Drawing.Point(12, 497);
             this.dgvQuests.MultiSelect = false;
             this.dgvQuests.Name = "dgvQuests";
             this.dgvQuests.ReadOnly = true;
             this.dgvQuests.RowHeadersVisible = false;
             this.dgvQuests.RowHeadersWidth = 51;
-            this.dgvQuests.Size = new System.Drawing.Size(300, 180);
+            this.dgvQuests.Size = new System.Drawing.Size(379, 180);
             this.dgvQuests.TabIndex = 1;
             // 
             // questName
@@ -315,27 +346,11 @@ namespace SuperAdventure
             this.completed.ReadOnly = true;
             this.completed.Width = 125;
             // 
-            // itemName
-            // 
-            this.itemName.HeaderText = "Name";
-            this.itemName.MinimumWidth = 6;
-            this.itemName.Name = "itemName";
-            this.itemName.ReadOnly = true;
-            this.itemName.Width = 125;
-            // 
-            // itemQuantity
-            // 
-            this.itemQuantity.HeaderText = "Quantity";
-            this.itemQuantity.MinimumWidth = 6;
-            this.itemQuantity.Name = "itemQuantity";
-            this.itemQuantity.ReadOnly = true;
-            this.itemQuantity.Width = 125;
-            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(795, 475);
+            this.ClientSize = new System.Drawing.Size(1090, 694);
             this.Controls.Add(this.btnUsePotion);
             this.Controls.Add(this.btnUseWeapon);
             this.Controls.Add(this.label6);
@@ -358,7 +373,9 @@ namespace SuperAdventure
             this.Controls.Add(this.lblGold);
             this.Controls.Add(this.lblHitPoints);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "GameForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Super Adventure";
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();

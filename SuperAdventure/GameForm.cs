@@ -201,6 +201,8 @@ namespace SuperAdventure
         private void PrintMessage(string message)
         {
             rtbMessages.Text += message + Environment.NewLine;
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
 
         private void btnNorth_Click(object sender, System.EventArgs e)
@@ -263,7 +265,7 @@ namespace SuperAdventure
                 foreach (var lootItem in _currentMonster.LootTable)
                 {
                     _player.AddItemToInventory(lootItem.Details);
-                    PrintMessage($"Вы получили предмет: {lootItem.Details}.");
+                    PrintMessage($"Вы получили предмет: {lootItem.Details.Name}.");
                 }
 
                 MoveTo(_player.CurrentLocation);
