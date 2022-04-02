@@ -10,14 +10,21 @@ namespace SuperAdventure
         private Player _player;
         private Monster _currentMonster;
 
+        private QuestLogForm questLogForm;
+        private InventoryForm inventoryForm;
+
         public GameForm()
         {
             InitializeComponent();
-
+            inventoryForm = new InventoryForm();
             _player = new Player(100, 100, 0, 0, 1);
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
 
+
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
+            
+            questLogForm = new QuestLogForm();
+            
         }
 
         private void MoveTo(Location locationToMove)
@@ -121,23 +128,14 @@ namespace SuperAdventure
 
         private void UpdateUIInventoryList()
         {
-            dgvInventory.Rows.Clear();
-            foreach (var ii in _player.Inventory)
-            {
-                if (ii.Quantity > 0)
-                {
-                    dgvInventory.Rows.Add(new string[] { ii.Details.Name, ii.Quantity.ToString() });
-                }
-            }
+            if (inventoryForm != null)
+                inventoryForm.UpdateUIInventoryList(_player.Inventory);
         }
         
         private void UpdateUIQuestList()
         {
-            dgvQuests.Rows.Clear();
-            foreach (var pq in _player.Quests)
-            {
-                dgvQuests.Rows.Add(new string[] { pq.Details.Name, pq.Details.Description, pq.IsCompleted.ToString() });
-            }
+            if (questLogForm != null)
+                questLogForm.UpdateUIQuestList(_player.Quests);
         }
         
         private void UpdateWeaponsAccessibility()
@@ -291,6 +289,21 @@ namespace SuperAdventure
             PrintMessage($"Вы использовали {currentPotion.Name}: +{currentPotion.AmountToHeal}HP.");
 
             UpdateUI();
+        }
+
+        private void btnQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnQuestLog_Click(object sender, EventArgs e)
+        {
+            questLogForm.Show();
+        }
+
+        private void btnInventory_Click(object sender, EventArgs e)
+        {
+            inventoryForm.Show();
         }
     }
 }

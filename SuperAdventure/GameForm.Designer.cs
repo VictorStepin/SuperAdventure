@@ -29,6 +29,7 @@ namespace SuperAdventure
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -37,9 +38,6 @@ namespace SuperAdventure
             this.lblGold = new System.Windows.Forms.Label();
             this.lblExperience = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
-            this.dgvInventory = new System.Windows.Forms.DataGridView();
-            this.itemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnNorth = new System.Windows.Forms.Button();
             this.btnSouth = new System.Windows.Forms.Button();
             this.btnEast = new System.Windows.Forms.Button();
@@ -52,20 +50,21 @@ namespace SuperAdventure
             this.label6 = new System.Windows.Forms.Label();
             this.btnUseWeapon = new System.Windows.Forms.Button();
             this.btnUsePotion = new System.Windows.Forms.Button();
-            this.dgvQuests = new System.Windows.Forms.DataGridView();
-            this.questName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.completed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnQuit = new System.Windows.Forms.Button();
+            this.btnQuestLog = new System.Windows.Forms.Button();
+            this.btnInventory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label1.Location = new System.Drawing.Point(135, 219);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 20);
+            this.label1.Size = new System.Drawing.Size(96, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Hit points:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -73,9 +72,12 @@ namespace SuperAdventure
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 29);
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label2.Location = new System.Drawing.Point(313, 219);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 20);
+            this.label2.Size = new System.Drawing.Size(56, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "Gold:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -83,9 +85,12 @@ namespace SuperAdventure
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 49);
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label3.Location = new System.Drawing.Point(455, 219);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 20);
+            this.label3.Size = new System.Drawing.Size(108, 16);
             this.label3.TabIndex = 0;
             this.label3.Text = "Experience:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -93,9 +98,12 @@ namespace SuperAdventure
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 69);
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label4.Location = new System.Drawing.Point(645, 219);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 20);
+            this.label4.Size = new System.Drawing.Size(62, 16);
             this.label4.TabIndex = 0;
             this.label4.Text = "Level:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -103,9 +111,12 @@ namespace SuperAdventure
             // lblHitPoints
             // 
             this.lblHitPoints.AutoSize = true;
-            this.lblHitPoints.Location = new System.Drawing.Point(95, 9);
+            this.lblHitPoints.BackColor = System.Drawing.Color.Transparent;
+            this.lblHitPoints.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblHitPoints.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblHitPoints.Location = new System.Drawing.Point(237, 219);
             this.lblHitPoints.Name = "lblHitPoints";
-            this.lblHitPoints.Size = new System.Drawing.Size(17, 20);
+            this.lblHitPoints.Size = new System.Drawing.Size(18, 16);
             this.lblHitPoints.TabIndex = 0;
             this.lblHitPoints.Text = "0";
             this.lblHitPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -113,9 +124,12 @@ namespace SuperAdventure
             // lblGold
             // 
             this.lblGold.AutoSize = true;
-            this.lblGold.Location = new System.Drawing.Point(95, 29);
+            this.lblGold.BackColor = System.Drawing.Color.Transparent;
+            this.lblGold.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGold.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblGold.Location = new System.Drawing.Point(375, 219);
             this.lblGold.Name = "lblGold";
-            this.lblGold.Size = new System.Drawing.Size(17, 20);
+            this.lblGold.Size = new System.Drawing.Size(18, 16);
             this.lblGold.TabIndex = 0;
             this.lblGold.Text = "0";
             this.lblGold.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -123,9 +137,12 @@ namespace SuperAdventure
             // lblExperience
             // 
             this.lblExperience.AutoSize = true;
-            this.lblExperience.Location = new System.Drawing.Point(95, 49);
+            this.lblExperience.BackColor = System.Drawing.Color.Transparent;
+            this.lblExperience.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblExperience.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblExperience.Location = new System.Drawing.Point(569, 219);
             this.lblExperience.Name = "lblExperience";
-            this.lblExperience.Size = new System.Drawing.Size(17, 20);
+            this.lblExperience.Size = new System.Drawing.Size(18, 16);
             this.lblExperience.TabIndex = 0;
             this.lblExperience.Text = "0";
             this.lblExperience.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -133,54 +150,21 @@ namespace SuperAdventure
             // lblLevel
             // 
             this.lblLevel.AutoSize = true;
-            this.lblLevel.Location = new System.Drawing.Point(95, 69);
+            this.lblLevel.BackColor = System.Drawing.Color.Transparent;
+            this.lblLevel.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblLevel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblLevel.Location = new System.Drawing.Point(713, 219);
             this.lblLevel.Name = "lblLevel";
-            this.lblLevel.Size = new System.Drawing.Size(17, 20);
+            this.lblLevel.Size = new System.Drawing.Size(18, 16);
             this.lblLevel.TabIndex = 0;
             this.lblLevel.Text = "0";
             this.lblLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // dgvInventory
-            // 
-            this.dgvInventory.AllowUserToAddRows = false;
-            this.dgvInventory.AllowUserToDeleteRows = false;
-            this.dgvInventory.AllowUserToResizeColumns = false;
-            this.dgvInventory.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInventory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.itemName,
-            this.itemQuantity});
-            this.dgvInventory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvInventory.Enabled = false;
-            this.dgvInventory.Location = new System.Drawing.Point(12, 202);
-            this.dgvInventory.MultiSelect = false;
-            this.dgvInventory.Name = "dgvInventory";
-            this.dgvInventory.ReadOnly = true;
-            this.dgvInventory.RowHeadersVisible = false;
-            this.dgvInventory.RowHeadersWidth = 51;
-            this.dgvInventory.Size = new System.Drawing.Size(379, 289);
-            this.dgvInventory.TabIndex = 1;
-            // 
-            // itemName
-            // 
-            this.itemName.HeaderText = "Name";
-            this.itemName.MinimumWidth = 6;
-            this.itemName.Name = "itemName";
-            this.itemName.ReadOnly = true;
-            this.itemName.Width = 200;
-            // 
-            // itemQuantity
-            // 
-            this.itemQuantity.HeaderText = "Quantity";
-            this.itemQuantity.MinimumWidth = 6;
-            this.itemQuantity.Name = "itemQuantity";
-            this.itemQuantity.ReadOnly = true;
-            this.itemQuantity.Width = 170;
-            // 
             // btnNorth
             // 
             this.btnNorth.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnNorth.Location = new System.Drawing.Point(535, 497);
+            this.btnNorth.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnNorth.Location = new System.Drawing.Point(397, 755);
             this.btnNorth.Name = "btnNorth";
             this.btnNorth.Size = new System.Drawing.Size(50, 50);
             this.btnNorth.TabIndex = 2;
@@ -191,7 +175,8 @@ namespace SuperAdventure
             // btnSouth
             // 
             this.btnSouth.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSouth.Location = new System.Drawing.Point(535, 627);
+            this.btnSouth.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnSouth.Location = new System.Drawing.Point(397, 885);
             this.btnSouth.Name = "btnSouth";
             this.btnSouth.Size = new System.Drawing.Size(50, 50);
             this.btnSouth.TabIndex = 2;
@@ -202,7 +187,8 @@ namespace SuperAdventure
             // btnEast
             // 
             this.btnEast.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnEast.Location = new System.Drawing.Point(595, 564);
+            this.btnEast.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnEast.Location = new System.Drawing.Point(457, 822);
             this.btnEast.Name = "btnEast";
             this.btnEast.Size = new System.Drawing.Size(50, 50);
             this.btnEast.TabIndex = 2;
@@ -213,7 +199,8 @@ namespace SuperAdventure
             // btnWest
             // 
             this.btnWest.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnWest.Location = new System.Drawing.Point(475, 564);
+            this.btnWest.Font = new System.Drawing.Font("Copperplate Gothic Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnWest.Location = new System.Drawing.Point(337, 822);
             this.btnWest.Name = "btnWest";
             this.btnWest.Size = new System.Drawing.Size(50, 50);
             this.btnWest.TabIndex = 2;
@@ -224,66 +211,77 @@ namespace SuperAdventure
             // rtbLocationInfo
             // 
             this.rtbLocationInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbLocationInfo.Location = new System.Drawing.Point(622, 6);
+            this.rtbLocationInfo.BackColor = System.Drawing.Color.Wheat;
+            this.rtbLocationInfo.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rtbLocationInfo.Location = new System.Drawing.Point(135, 238);
             this.rtbLocationInfo.Name = "rtbLocationInfo";
-            this.rtbLocationInfo.Size = new System.Drawing.Size(456, 48);
+            this.rtbLocationInfo.Size = new System.Drawing.Size(596, 48);
             this.rtbLocationInfo.TabIndex = 3;
             this.rtbLocationInfo.Text = "";
             // 
             // rtbMessages
             // 
             this.rtbMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbMessages.Location = new System.Drawing.Point(622, 60);
+            this.rtbMessages.BackColor = System.Drawing.Color.Wheat;
+            this.rtbMessages.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rtbMessages.Location = new System.Drawing.Point(135, 292);
             this.rtbMessages.Name = "rtbMessages";
             this.rtbMessages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbMessages.Size = new System.Drawing.Size(458, 322);
+            this.rtbMessages.Size = new System.Drawing.Size(596, 457);
             this.rtbMessages.TabIndex = 3;
             this.rtbMessages.Text = "";
             // 
             // cbxWeapons
             // 
             this.cbxWeapons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxWeapons.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxWeapons.FormattingEnabled = true;
-            this.cbxWeapons.Location = new System.Drawing.Point(800, 559);
+            this.cbxWeapons.Location = new System.Drawing.Point(584, 846);
             this.cbxWeapons.Name = "cbxWeapons";
-            this.cbxWeapons.Size = new System.Drawing.Size(151, 28);
+            this.cbxWeapons.Size = new System.Drawing.Size(147, 24);
             this.cbxWeapons.TabIndex = 4;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(800, 532);
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(592, 827);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(109, 20);
+            this.label5.Size = new System.Drawing.Size(133, 16);
             this.label5.TabIndex = 5;
             this.label5.Text = "Select weapon:";
             // 
             // cbxPotions
             // 
             this.cbxPotions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxPotions.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cbxPotions.FormattingEnabled = true;
-            this.cbxPotions.Location = new System.Drawing.Point(800, 621);
+            this.cbxPotions.Location = new System.Drawing.Point(134, 846);
             this.cbxPotions.Name = "cbxPotions";
-            this.cbxPotions.Size = new System.Drawing.Size(151, 28);
+            this.cbxPotions.Size = new System.Drawing.Size(151, 24);
             this.cbxPotions.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(800, 594);
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(147, 827);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 20);
+            this.label6.Size = new System.Drawing.Size(125, 16);
             this.label6.TabIndex = 5;
             this.label6.Text = "Select potion:";
             // 
             // btnUseWeapon
             // 
             this.btnUseWeapon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUseWeapon.Location = new System.Drawing.Point(957, 532);
+            this.btnUseWeapon.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnUseWeapon.Location = new System.Drawing.Point(584, 880);
             this.btnUseWeapon.Name = "btnUseWeapon";
-            this.btnUseWeapon.Size = new System.Drawing.Size(123, 55);
+            this.btnUseWeapon.Size = new System.Drawing.Size(147, 55);
             this.btnUseWeapon.TabIndex = 6;
             this.btnUseWeapon.Text = "Use weapon";
             this.btnUseWeapon.UseVisualStyleBackColor = true;
@@ -292,65 +290,73 @@ namespace SuperAdventure
             // btnUsePotion
             // 
             this.btnUsePotion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUsePotion.Location = new System.Drawing.Point(957, 594);
+            this.btnUsePotion.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnUsePotion.Location = new System.Drawing.Point(134, 880);
             this.btnUsePotion.Name = "btnUsePotion";
-            this.btnUsePotion.Size = new System.Drawing.Size(123, 55);
+            this.btnUsePotion.Size = new System.Drawing.Size(151, 55);
             this.btnUsePotion.TabIndex = 6;
             this.btnUsePotion.Text = "Use potion";
             this.btnUsePotion.UseVisualStyleBackColor = true;
             this.btnUsePotion.Click += new System.EventHandler(this.btnUsePotion_Click);
             // 
-            // dgvQuests
+            // label7
             // 
-            this.dgvQuests.AllowUserToAddRows = false;
-            this.dgvQuests.AllowUserToDeleteRows = false;
-            this.dgvQuests.AllowUserToResizeColumns = false;
-            this.dgvQuests.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.dgvQuests.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvQuests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.questName,
-            this.description,
-            this.completed});
-            this.dgvQuests.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvQuests.Enabled = false;
-            this.dgvQuests.Location = new System.Drawing.Point(12, 497);
-            this.dgvQuests.MultiSelect = false;
-            this.dgvQuests.Name = "dgvQuests";
-            this.dgvQuests.ReadOnly = true;
-            this.dgvQuests.RowHeadersVisible = false;
-            this.dgvQuests.RowHeadersWidth = 51;
-            this.dgvQuests.Size = new System.Drawing.Size(379, 180);
-            this.dgvQuests.TabIndex = 1;
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Copperplate Gothic Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label7.Location = new System.Drawing.Point(246, 154);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(400, 38);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "SUPER ADVENTURE";
             // 
-            // questName
+            // btnQuit
             // 
-            this.questName.HeaderText = "Name";
-            this.questName.MinimumWidth = 6;
-            this.questName.Name = "questName";
-            this.questName.ReadOnly = true;
-            this.questName.Width = 125;
+            this.btnQuit.BackColor = System.Drawing.Color.Transparent;
+            this.btnQuit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnQuit.BackgroundImage")));
+            this.btnQuit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnQuit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnQuit.Location = new System.Drawing.Point(727, 152);
+            this.btnQuit.Name = "btnQuit";
+            this.btnQuit.Size = new System.Drawing.Size(37, 39);
+            this.btnQuit.TabIndex = 8;
+            this.btnQuit.UseVisualStyleBackColor = false;
+            this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
             // 
-            // description
+            // btnQuestLog
             // 
-            this.description.HeaderText = "Description";
-            this.description.MinimumWidth = 6;
-            this.description.Name = "description";
-            this.description.ReadOnly = true;
-            this.description.Width = 125;
+            this.btnQuestLog.Location = new System.Drawing.Point(637, 755);
+            this.btnQuestLog.Name = "btnQuestLog";
+            this.btnQuestLog.Size = new System.Drawing.Size(94, 29);
+            this.btnQuestLog.TabIndex = 9;
+            this.btnQuestLog.Text = "Quest Log";
+            this.btnQuestLog.UseVisualStyleBackColor = true;
+            this.btnQuestLog.Click += new System.EventHandler(this.btnQuestLog_Click);
             // 
-            // completed
+            // btnInventory
             // 
-            this.completed.HeaderText = "Completed";
-            this.completed.MinimumWidth = 6;
-            this.completed.Name = "completed";
-            this.completed.ReadOnly = true;
-            this.completed.Width = 125;
+            this.btnInventory.Location = new System.Drawing.Point(637, 790);
+            this.btnInventory.Name = "btnInventory";
+            this.btnInventory.Size = new System.Drawing.Size(94, 29);
+            this.btnInventory.TabIndex = 10;
+            this.btnInventory.Text = "Inventory";
+            this.btnInventory.UseVisualStyleBackColor = true;
+            this.btnInventory.Click += new System.EventHandler(this.btnInventory_Click);
             // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1090, 694);
+            this.BackColor = System.Drawing.Color.Firebrick;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ClientSize = new System.Drawing.Size(866, 1102);
+            this.Controls.Add(this.btnInventory);
+            this.Controls.Add(this.btnQuestLog);
+            this.Controls.Add(this.btnQuit);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.btnUsePotion);
             this.Controls.Add(this.btnUseWeapon);
             this.Controls.Add(this.label6);
@@ -363,8 +369,6 @@ namespace SuperAdventure
             this.Controls.Add(this.btnEast);
             this.Controls.Add(this.btnSouth);
             this.Controls.Add(this.btnNorth);
-            this.Controls.Add(this.dgvQuests);
-            this.Controls.Add(this.dgvInventory);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -373,12 +377,12 @@ namespace SuperAdventure
             this.Controls.Add(this.lblGold);
             this.Controls.Add(this.lblHitPoints);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "GameForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Super Adventure";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();
+            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(111)))), ((int)(((byte)(230)))), ((int)(((byte)(155)))));
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -394,7 +398,6 @@ namespace SuperAdventure
         private System.Windows.Forms.Label lblGold;
         private System.Windows.Forms.Label lblExperience;
         private System.Windows.Forms.Label lblLevel;
-        private System.Windows.Forms.DataGridView dgvInventory;
         private System.Windows.Forms.Button btnNorth;
         private System.Windows.Forms.Button btnSouth;
         private System.Windows.Forms.Button btnEast;
@@ -407,12 +410,10 @@ namespace SuperAdventure
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnUseWeapon;
         private System.Windows.Forms.Button btnUsePotion;
-        private System.Windows.Forms.DataGridView dgvQuests;
-        private System.Windows.Forms.DataGridViewTextBoxColumn questName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn completed;
-        private System.Windows.Forms.DataGridViewTextBoxColumn itemName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn itemQuantity;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnQuit;
+        private System.Windows.Forms.Button btnQuestLog;
+        private System.Windows.Forms.Button btnInventory;
     }
 }
 
