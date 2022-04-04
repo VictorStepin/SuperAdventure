@@ -54,8 +54,8 @@ namespace Engine
                         foundItemInInventory = true;
                         if (ii.Quantity < qci.Quantity)
                             return false;
+                        break;
                     }
-                    break;
                 }
 
                 if (!foundItemInInventory)
@@ -74,8 +74,8 @@ namespace Engine
                     if (qci.Details.ID == ii.Details.ID)
                     {
                         ii.Quantity -= qci.Quantity;
+                        break;
                     }
-                    break;
                 }
             }
         }

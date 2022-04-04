@@ -20,7 +20,6 @@ namespace SuperAdventure
             _player = new Player(100, 100, 0, 0, 1);
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
 
-
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             
             questLogForm = new QuestLogForm();
@@ -50,7 +49,7 @@ namespace SuperAdventure
                         _player.ExperiencePoints += questInLocationToMove.RewardExperiencePoints;
                         _player.Gold += questInLocationToMove.RewardGold;
                         _player.AddItemToInventory(questInLocationToMove.RewardItem);
-                        PrintMessage($"Вы получили предмет: {questInLocationToMove.RewardItem}.");
+                        PrintMessage($"Вы получили предмет: {questInLocationToMove.RewardItem.Name}.");
 
                         _player.RemoveQuestCompletionItems(questInLocationToMove);
 
@@ -198,7 +197,7 @@ namespace SuperAdventure
 
         private void PrintMessage(string message)
         {
-            rtbMessages.Text += message + Environment.NewLine;
+            rtbMessages.Text += message + Environment.NewLine + Environment.NewLine;
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
         }
