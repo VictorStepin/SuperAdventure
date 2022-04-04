@@ -7,6 +7,8 @@ namespace SuperAdventure
 {
     public partial class GameForm : Form
     {
+        private string _message = "";
+
         private Player _player;
         private Monster _currentMonster;
 
@@ -30,7 +32,7 @@ namespace SuperAdventure
         {
             if (!_player.HasRequiredItemToEnterLocation(locationToMove))
             {
-                PrintMessage($"Для прохода в \"{locationToMove.Name}\" необходим предмет: {locationToMove.ItemRequiredToEnter.Name}");
+                AppendMessage($"You need: {locationToMove.ItemRequiredToEnter.Name} to access location \"{locationToMove.Name}\" ");
                 return;
             }
 
@@ -49,26 +51,26 @@ namespace SuperAdventure
                         _player.ExperiencePoints += questInLocationToMove.RewardExperiencePoints;
                         _player.Gold += questInLocationToMove.RewardGold;
                         _player.AddItemToInventory(questInLocationToMove.RewardItem);
-                        PrintMessage($"Вы получили предмет: {questInLocationToMove.RewardItem.Name}.");
+                        AppendMessage($"You've got the item: {questInLocationToMove.RewardItem.Name}.");
 
                         _player.RemoveQuestCompletionItems(questInLocationToMove);
 
                         _player.MarkQuestCompleted(questInLocationToMove);
 
-                        PrintMessage($"Вы выполнили квест: {questInLocationToMove.Name}");
+                        AppendMessage($"You've completed the quest: {questInLocationToMove.Name}");
                     }
                 }
                 else
                 {
                     var newPlayerQuest = new PlayerQuest(questInLocationToMove);
                     _player.Quests.Add(newPlayerQuest);
-                    PrintMessage($"Вы получили квест: \"{newPlayerQuest.Details.Name}\"");
+                    AppendMessage($"You've got the quest: \"{newPlayerQuest.Details.Name}\"");
                 }
             }
 
             if (locationToMove.MonsterLivingHere != null)
             {
-                PrintMessage($"Вы видете монстра: {locationToMove.MonsterLivingHere.Name}. У него {locationToMove.MonsterLivingHere.CurrentHitPoints} HP.");
+                AppendMessage($"You are seeing the monster: {locationToMove.MonsterLivingHere.Name}. It has {locationToMove.MonsterLivingHere.CurrentHitPoints} HP.");
 
                 cbxWeapons.Enabled = true;
                 btnUseWeapon.Enabled = true;
@@ -103,8 +105,9 @@ namespace SuperAdventure
 
         private void UpdateUI()
         {
-            UpdateUILocationInfo();
             UpdateUIPlayerInfo();
+            UpdateUILocationInfo();
+            PrintMessage();
             UpdateUIInventoryList();
             UpdateUIQuestList();
             UpdateNavigationButtonsAccessibility();
@@ -195,13 +198,25 @@ namespace SuperAdventure
             btnWest.Enabled = _player.CurrentLocation.LocationToWest != null;
         }
 
-        private void PrintMessage(string message)
+        private void AppendMessage(string appendText)
         {
-            rtbMessages.Text += message + Environment.NewLine + Environment.NewLine;
+            _message += appendText + Environment.NewLine;
+        }
+
+        private void PrintMessage()
+        {
+            if (_message != "")
+                rtbMessages.Text += _message + Environment.NewLine;
+            _message = "";
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
         }
 
+        private void btnQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        
         private void btnNorth_Click(object sender, System.EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToNorth);
@@ -228,7 +243,7 @@ namespace SuperAdventure
 
             if (currentWeapon == null)
             {
-                PrintMessage("Выберите оружие.");
+                AppendMessage("Choose your weapon.");
                 return;
             }
 
@@ -237,32 +252,32 @@ namespace SuperAdventure
 
             if (_currentMonster.CurrentHitPoints > 0)
             {
-                PrintMessage($"Вы нанесли монстру {damage} урона. У монстра сейчас {_currentMonster.CurrentHitPoints} HP.");
+                AppendMessage($"You've hit the monster by {damage} damage. It has {_currentMonster.CurrentHitPoints} HP now.");
 
                 _player.CurrentHitPoints -= _currentMonster.Damage;
-                PrintMessage($"Монстр нанес вам {_currentMonster.Damage} урона.");
+                AppendMessage($"Monster's hit you by {_currentMonster.Damage} damage.");
 
                 if (_player.CurrentHitPoints <= 0)
                 {
-                    PrintMessage("Вы умерли.");
+                    AppendMessage("You died.");
                     MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
                     return;
                 }
             }
             else
             {
-                PrintMessage($"Вы нанесли монстру {damage} урона. Монстр убит.");
+                AppendMessage($"You've hit the monster by {damage} damage. The monster is dead.");
                 
                 _player.Gold += _currentMonster.RewardGold;
-                PrintMessage($"Вы получили {_currentMonster.RewardGold} золота.");
+                AppendMessage($"You've got {_currentMonster.RewardGold} gold.");
 
                 _player.ExperiencePoints += _currentMonster.RewardExperiencePoints;
-                PrintMessage($"Вы получили {_currentMonster.RewardExperiencePoints} опыта.");
+                AppendMessage($"You've got {_currentMonster.RewardExperiencePoints} experience points.");
 
                 foreach (var lootItem in _currentMonster.LootTable)
                 {
                     _player.AddItemToInventory(lootItem.Details);
-                    PrintMessage($"Вы получили предмет: {lootItem.Details.Name}.");
+                    AppendMessage($"You've got the item: {lootItem.Details.Name}.");
                 }
 
                 MoveTo(_player.CurrentLocation);
@@ -277,7 +292,7 @@ namespace SuperAdventure
 
             if (currentPotion == null)
             {
-                PrintMessage("Выберите зелье.");
+                AppendMessage("Choose your potion.");
                 return;
             }
 
@@ -285,14 +300,9 @@ namespace SuperAdventure
             if (_player.CurrentHitPoints > _player.MaximumHitPoints)
                 _player.CurrentHitPoints = _player.MaximumHitPoints;
 
-            PrintMessage($"Вы использовали {currentPotion.Name}: +{currentPotion.AmountToHeal}HP.");
+            AppendMessage($"You've used {currentPotion.Name}: +{currentPotion.AmountToHeal}HP.");
 
             UpdateUI();
-        }
-
-        private void btnQuit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
         private void btnQuestLog_Click(object sender, EventArgs e)
