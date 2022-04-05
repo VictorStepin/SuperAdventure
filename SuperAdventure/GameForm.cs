@@ -21,6 +21,7 @@ namespace SuperAdventure
             inventoryForm = new InventoryForm();
             _player = new Player(100, 100, 0, 0, 1);
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
+            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_HEALING_POTION));
 
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             
@@ -241,12 +242,6 @@ namespace SuperAdventure
         {
             var currentWeapon = (Weapon)cbxWeapons.SelectedItem;
 
-            if (currentWeapon == null)
-            {
-                AppendMessage("Choose your weapon.");
-                return;
-            }
-
             var damage = RNG.NumberBetween(currentWeapon.MinimumDamage, currentWeapon.MaximumDamage);
             _currentMonster.CurrentHitPoints -= damage;
 
@@ -289,12 +284,6 @@ namespace SuperAdventure
         private void btnUsePotion_Click(object sender, System.EventArgs e)
         {
             var currentPotion = (HealingPotion)cbxPotions.SelectedItem;
-
-            if (currentPotion == null)
-            {
-                AppendMessage("Choose your potion.");
-                return;
-            }
 
             _player.CurrentHitPoints += currentPotion.AmountToHeal;
             if (_player.CurrentHitPoints > _player.MaximumHitPoints)
