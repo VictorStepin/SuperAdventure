@@ -215,6 +215,7 @@ namespace SuperAdventure
             this.rtbLocationInfo.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rtbLocationInfo.Location = new System.Drawing.Point(135, 238);
             this.rtbLocationInfo.Name = "rtbLocationInfo";
+            this.rtbLocationInfo.ReadOnly = true;
             this.rtbLocationInfo.Size = new System.Drawing.Size(596, 48);
             this.rtbLocationInfo.TabIndex = 3;
             this.rtbLocationInfo.Text = "";
@@ -226,6 +227,7 @@ namespace SuperAdventure
             this.rtbMessages.Font = new System.Drawing.Font("Copperplate Gothic Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rtbMessages.Location = new System.Drawing.Point(135, 292);
             this.rtbMessages.Name = "rtbMessages";
+            this.rtbMessages.ReadOnly = true;
             this.rtbMessages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.rtbMessages.Size = new System.Drawing.Size(596, 457);
             this.rtbMessages.TabIndex = 3;
