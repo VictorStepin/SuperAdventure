@@ -289,6 +289,15 @@ namespace SuperAdventure
             if (_player.CurrentHitPoints > _player.MaximumHitPoints)
                 _player.CurrentHitPoints = _player.MaximumHitPoints;
 
+            foreach (var ii in _player.Inventory)
+            {
+                if (ii.Details.ID == currentPotion.ID)
+                {
+                    ii.Quantity--;
+                    break;
+                }
+            }
+
             AppendMessage($"You've used {currentPotion.Name}: +{currentPotion.AmountToHeal}HP.");
 
             UpdateUI();
