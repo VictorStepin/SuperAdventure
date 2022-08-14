@@ -11,8 +11,13 @@ namespace Engine
         public int RewardGold { get; set; }
         public List<LootItem> LootTable { get; set; }
 
-        public Monster(int id, string name, int damage, int currentHitPoints, int maximumHitPoints, int rewardExperiencePoints, int rewardGold)
-            : base(currentHitPoints, maximumHitPoints)
+        public Monster(int id,
+                       string name,
+                       int damage, 
+                       int hitPoints, 
+                       int rewardExperiencePoints, 
+                       int rewardGold)
+            : base(hitPoints)
         {
             ID = id;
             Name = name;

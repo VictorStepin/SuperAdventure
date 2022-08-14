@@ -19,9 +19,11 @@ namespace SuperAdventure
         {
             InitializeComponent();
             inventoryForm = new InventoryForm();
-            _player = new Player(100, 100, 0, 0, 1);
+            _player = new Player(World.PlayerMaximumHitPoints,
+                                 World.PlayerStartigGold,
+                                 World.PlayerStargingExperiencePoints,
+                                 World.PlayerStartingLevel);
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
-            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_HEALING_POTION));
 
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             
@@ -34,6 +36,7 @@ namespace SuperAdventure
             if (!_player.HasRequiredItemToEnterLocation(locationToMove))
             {
                 AppendMessage($"You need: {locationToMove.ItemRequiredToEnter.Name} to access location \"{locationToMove.Name}\" ");
+                UpdateUI();
                 return;
             }
 
@@ -49,16 +52,16 @@ namespace SuperAdventure
                 {
                     if (_player.HasAllCompletionItems(questInLocationToMove))
                     {
+                        _player.RemoveQuestCompletionItems(questInLocationToMove);
+
                         _player.ExperiencePoints += questInLocationToMove.RewardExperiencePoints;
                         _player.Gold += questInLocationToMove.RewardGold;
                         _player.AddItemToInventory(questInLocationToMove.RewardItem);
-                        AppendMessage($"You've got the item: {questInLocationToMove.RewardItem.Name}.");
-
-                        _player.RemoveQuestCompletionItems(questInLocationToMove);
 
                         _player.MarkQuestCompleted(questInLocationToMove);
-
+                        
                         AppendMessage($"You've completed the quest: {questInLocationToMove.Name}");
+                        AppendMessage($"You've got the item: {questInLocationToMove.RewardItem.Name}.");
                     }
                 }
                 else
@@ -82,7 +85,6 @@ namespace SuperAdventure
                 _currentMonster = new Monster(standardMonster.ID,
                                               standardMonster.Name,
                                               standardMonster.Damage,
-                                              standardMonster.CurrentHitPoints,
                                               standardMonster.MaximumHitPoints,
                                               standardMonster.RewardExperiencePoints,
                                               standardMonster.RewardGold);
