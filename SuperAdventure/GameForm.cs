@@ -24,11 +24,12 @@ namespace SuperAdventure
                                  World.PlayerStargingExperiencePoints,
                                  World.PlayerStartingLevel);
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
-
+            
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
-            
+            UpdateWeaponsSelector();
+            UpdatePotionsSelector();
+
             questLogForm = new QuestLogForm();
-            
         }
 
         private void MoveTo(Location locationToMove)
@@ -56,7 +57,17 @@ namespace SuperAdventure
 
                         _player.ExperiencePoints += questInLocationToMove.RewardExperiencePoints;
                         _player.Gold += questInLocationToMove.RewardGold;
-                        _player.AddItemToInventory(questInLocationToMove.RewardItem);
+
+                        var rewardItem = questInLocationToMove.RewardItem;
+                        _player.AddItemToInventory(rewardItem);
+                        if (rewardItem is Weapon)
+                        {
+                            UpdateWeaponsSelector();
+                        }
+                        else if (rewardItem is HealingPotion)
+                        {
+                            UpdatePotionsSelector();
+                        }
 
                         _player.MarkQuestCompleted(questInLocationToMove);
                         
@@ -114,8 +125,6 @@ namespace SuperAdventure
             UpdateUIInventoryList();
             UpdateUIQuestList();
             UpdateNavigationButtonsAccessibility();
-            UpdateWeaponsAccessibility();
-            UpdatePotionsAccessibility();
         }
 
         private void UpdateUILocationInfo()
@@ -143,14 +152,14 @@ namespace SuperAdventure
                 questLogForm.UpdateUIQuestList(_player.Quests);
         }
         
-        private void UpdateWeaponsAccessibility()
+        private void UpdateWeaponsSelector()
         {
             var weapons = new List<Weapon>();
             foreach (var ii in _player.Inventory)
             {
-                if (ii.Details is Weapon && ii.Quantity > 0)
+                if (ii.Item is Weapon)
                 {
-                    weapons.Add((Weapon)ii.Details);
+                    weapons.Add((Weapon)ii.Item);
                 }
             }
 
@@ -161,21 +170,20 @@ namespace SuperAdventure
             }
             else
             {
-                cbxWeapons.DataSource = weapons;
-                cbxWeapons.DisplayMember = "Name";
                 cbxWeapons.ValueMember = "ID";
-                cbxWeapons.SelectedIndex = 0;
+                cbxWeapons.DisplayMember = "Name";
+                cbxWeapons.DataSource = weapons;
             }
         }
         
-        private void UpdatePotionsAccessibility()
+        private void UpdatePotionsSelector()
         {
             var potions = new List<HealingPotion>();
             foreach (var ii in _player.Inventory)
             {
-                if (ii.Details is HealingPotion && ii.Quantity > 0)
+                if (ii.Item is HealingPotion && ii.Quantity > 0)
                 {
-                    potions.Add((HealingPotion)ii.Details);
+                    potions.Add((HealingPotion)ii.Item);
                 }
             }
 
@@ -293,7 +301,7 @@ namespace SuperAdventure
 
             foreach (var ii in _player.Inventory)
             {
-                if (ii.Details.ID == currentPotion.ID)
+                if (ii.Item.ID == currentPotion.ID)
                 {
                     ii.Quantity--;
                     break;

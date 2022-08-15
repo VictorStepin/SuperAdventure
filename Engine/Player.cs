@@ -27,7 +27,7 @@ namespace Engine
                 return true;
 
             foreach (var ii in Inventory)
-                if (ii.Details.ID == location.ItemRequiredToEnter.ID)
+                if (ii.Item.ID == location.ItemRequiredToEnter.ID)
                     return true;
 
             return false;
@@ -49,7 +49,7 @@ namespace Engine
                 var foundItemInInventory = false;
                 foreach (var ii in Inventory)
                 {
-                    if (qci.Details.ID == ii.Details.ID)
+                    if (qci.Details.ID == ii.Item.ID)
                     {
                         foundItemInInventory = true;
                         if (ii.Quantity < qci.Quantity)
@@ -71,7 +71,7 @@ namespace Engine
             {
                 foreach (var ii in Inventory)
                 {
-                    if (qci.Details.ID == ii.Details.ID)
+                    if (qci.Details.ID == ii.Item.ID)
                     {
                         ii.Quantity -= qci.Quantity;
                         break;
@@ -96,7 +96,7 @@ namespace Engine
         {
             foreach (var ii in Inventory)
             {
-                if (ii.Details.ID == itemToAdd.ID)
+                if (ii.Item.ID == itemToAdd.ID)
                 {
                     ii.Quantity++;
                     return;

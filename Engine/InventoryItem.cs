@@ -2,12 +2,12 @@
 {
     public class InventoryItem
     {
-        public Item Details { get; set; }
+        public Item Item { get; set; }
         public int Quantity { get; set; }
 
-        public InventoryItem(Item details, int quantity)
+        public InventoryItem(Item item, int quantity)
         {
-            Details = details;
+            Item = item;
             Quantity = quantity;
         }
     }
