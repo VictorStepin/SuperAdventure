@@ -42,6 +42,15 @@ namespace Engine
             return false;
         }
 
+        public bool CompletedQuest(Quest quest)
+        {
+            foreach (var pq in Quests)
+                if (pq.Details.ID == quest.ID)
+                    if (pq.IsCompleted) return true;
+
+            return false;
+        }
+
         public bool HasAllCompletionItems(Quest quest)
         {
             foreach (var qci in quest.QuestCompletionItems)

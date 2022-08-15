@@ -23,7 +23,7 @@ namespace SuperAdventure
                                  World.PlayerStartigGold,
                                  World.PlayerStargingExperiencePoints,
                                  World.PlayerStartingLevel);
-            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
+            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_AXE_OF_FARMERS_FATHER));
             
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             UpdateWeaponsSelector();
@@ -51,7 +51,7 @@ namespace SuperAdventure
 
                 if (_player.HasQuest(questInLocationToMove))
                 {
-                    if (_player.HasAllCompletionItems(questInLocationToMove))
+                    if (!_player.CompletedQuest(questInLocationToMove) && _player.HasAllCompletionItems(questInLocationToMove))
                     {
                         _player.RemoveQuestCompletionItems(questInLocationToMove);
 
