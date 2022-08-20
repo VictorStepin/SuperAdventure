@@ -8,6 +8,12 @@ namespace Engine
     {
         private static readonly RNGCryptoServiceProvider _generator = new RNGCryptoServiceProvider();
 
+        /// <summary>
+        /// Returns randomly generated integer value between inclusively minimum and maximum borders.
+        /// </summary>
+        /// <param name="minimumValue">Mininum possible value.</param>
+        /// <param name="maximumValue">Maximum possible value.</param>
+        /// <returns></returns>
         public static int NumberBetween(int minimumValue, int maximumValue)
         {
             byte[] randomNumber = new byte[1];

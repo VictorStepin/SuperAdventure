@@ -283,10 +283,30 @@ namespace SuperAdventure
                 _player.ExperiencePoints += _currentMonster.RewardExperiencePoints;
                 AppendMessage($"You've got {_currentMonster.RewardExperiencePoints} experience points.");
 
+
+                var someItemDropped = false;
                 foreach (var lootItem in _currentMonster.LootTable)
                 {
-                    _player.AddItemToInventory(lootItem.Details);
-                    AppendMessage($"You've got the item: {lootItem.Details.Name}.");
+                    var tryNumber = RNG.NumberBetween(0, 100);
+
+                    if (tryNumber <= lootItem.DropPercentage)
+                    {
+                        _player.AddItemToInventory(lootItem.Details);
+                        AppendMessage($"You've got the item: {lootItem.Details.Name}.");
+                        someItemDropped = true;
+                    }
+                }
+
+                if (!someItemDropped)
+                {
+                    foreach (var lootItem in _currentMonster.LootTable)
+                    {
+                        if (lootItem.IsDefaultItem)
+                        {
+                            _player.AddItemToInventory(lootItem.Details);
+                            AppendMessage($"You've got the item: {lootItem.Details.Name}.");
+                        }
+                    }
                 }
 
                 AppendMessage(Environment.NewLine);
