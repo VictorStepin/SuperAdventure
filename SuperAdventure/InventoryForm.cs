@@ -7,6 +7,8 @@ namespace SuperAdventure
 {
     public partial class InventoryForm : Form
     {
+        public event Action SortButtonPressed;
+
         public InventoryForm()
         {
             InitializeComponent();
@@ -27,6 +29,11 @@ namespace SuperAdventure
         private void btnHide_Click(object sender, EventArgs e)
         {
             Hide();
+        }
+
+        private void btnSort_Click(object sender, EventArgs e)
+        {
+            SortButtonPressed();
         }
     }
 }

@@ -23,8 +23,11 @@ namespace SuperAdventure
                                  World.PlayerStartigGold,
                                  World.PlayerStargingExperiencePoints,
                                  World.PlayerStartingLevel);
-            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_AXE_OF_FARMERS_FATHER));
-            
+            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
+            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_ADVENTURER_PASS));
+
+            inventoryForm.SortButtonPressed += OnSortButtonClicked;
+
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             UpdateWeaponsSelector();
             UpdatePotionsSelector();
@@ -189,6 +192,7 @@ namespace SuperAdventure
 
             if (potions.Count == 0)
             {
+                cbxPotions.DataSource = null;
                 cbxPotions.Enabled = false;
                 btnUsePotion.Enabled = false;
             }
@@ -285,6 +289,8 @@ namespace SuperAdventure
                     AppendMessage($"You've got the item: {lootItem.Details.Name}.");
                 }
 
+                AppendMessage(Environment.NewLine);
+
                 MoveTo(_player.CurrentLocation);
             }
 
@@ -311,6 +317,7 @@ namespace SuperAdventure
             AppendMessage($"You've used {currentPotion.Name}: +{currentPotion.AmountToHeal}HP.");
 
             UpdateUI();
+            UpdatePotionsSelector();
         }
 
         private void btnQuestLog_Click(object sender, EventArgs e)
@@ -321,6 +328,12 @@ namespace SuperAdventure
         private void btnInventory_Click(object sender, EventArgs e)
         {
             inventoryForm.Show();
+        }
+    
+        private void OnSortButtonClicked()
+        {
+            _player.Inventory.Sort();
+            inventoryForm.UpdateUIInventoryList(_player.Inventory);
         }
     }
 }

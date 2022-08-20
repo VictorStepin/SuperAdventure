@@ -52,12 +52,12 @@ namespace Engine
 
         private static void PopulateItems()
         {
-            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 1, 5));
+            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 1, 4));
             Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat tails"));
             Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur"));
             Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs"));
             Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snakeskin", "Snakeskins"));
-            Items.Add(new Weapon(ITEM_ID_AXE_OF_FARMERS_FATHER, "Axe of Farmer's Father", "Axes of Farmer's Father", 6, 10));
+            Items.Add(new Weapon(ITEM_ID_AXE_OF_FARMERS_FATHER, "Axe of Farmer's Father", "Axes of Farmer's Father", 3, 7));
             Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION, "Healing potion", "Healing potions", 5));
             Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs"));
             Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
@@ -99,7 +99,7 @@ namespace Engine
                 new Quest(
                     QUEST_ID_CLEAR_FARMERS_FIELD,
                     "Clear the farmer's field",
-                    "Kill snakes in the farmer's field and bring back 3 snake fangs. You will receive an adventurer's pass and 20 gold pieces.",
+                    "Kill snakes in the farmer's field and bring back 3 snake fangs. You will receive the Axe of farmer's father and 20 gold pieces.",
                     20,
                     20);
             clearFarmersField.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_SNAKE_FANG), 3));
