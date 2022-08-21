@@ -21,8 +21,7 @@ namespace SuperAdventure
             inventoryForm = new InventoryForm();
             _player = new Player(World.PlayerMaximumHitPoints,
                                  World.PlayerStartigGold,
-                                 World.PlayerStargingExperiencePoints,
-                                 World.PlayerStartingLevel);
+                                 World.PlayerStargingExperiencePoints);
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
             _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_ADVENTURER_PASS));
 
@@ -75,7 +74,9 @@ namespace SuperAdventure
                         _player.MarkQuestCompleted(questInLocationToMove);
                         
                         AppendMessage($"You've completed the quest: {questInLocationToMove.Name}");
-                        AppendMessage($"You've got the item: {questInLocationToMove.RewardItem.Name}.");
+                        AppendMessage($"Experience points gained: {questInLocationToMove.RewardExperiencePoints}");
+                        AppendMessage($"Gold earned: {questInLocationToMove.RewardGold}");
+                        AppendMessage($"You've recieved the item: {questInLocationToMove.RewardItem.Name}.");
                     }
                 }
                 else

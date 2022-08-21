@@ -7,7 +7,6 @@ namespace Engine
         public const int PlayerMaximumHitPoints = 10;
         public const int PlayerStartigGold = 0;
         public const int PlayerStargingExperiencePoints = 0;
-        public const int PlayerStartingLevel = 1;
 
         public static readonly List<Item> Items = new List<Item>();
         public static readonly List<Monster> Monsters = new List<Monster>();
@@ -66,15 +65,15 @@ namespace Engine
 
         private static void PopulateMonsters()
         {
-            Monster rat = new Monster(MONSTER_ID_RAT, "Rat", 5, 1, 0, 0);
+            Monster rat = new Monster(MONSTER_ID_RAT, "Rat", 5, 1, 10, 0);
             rat.LootTable.Add(new LootItem(ItemByID(ITEM_ID_RAT_TAIL), 75, false));
             rat.LootTable.Add(new LootItem(ItemByID(ITEM_ID_PIECE_OF_FUR), 75, true));
 
-            Monster snake = new Monster(MONSTER_ID_SNAKE, "Snake", 3, 8, 0, 0);
+            Monster snake = new Monster(MONSTER_ID_SNAKE, "Snake", 3, 8, 15, 0);
             snake.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SNAKE_FANG), 75, false));
             snake.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SNAKESKIN), 75, true));
 
-            Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER, "Giant spider", 6, 12, 0, 0);
+            Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER, "Giant spider", 6, 12, 20, 0);
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_FANG), 75, true));
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_SILK), 75, false));
 
