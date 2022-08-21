@@ -98,8 +98,8 @@ namespace SuperAdventure
                 var standardMonster = locationToMove.MonsterLivingHere;
                 _currentMonster = new Monster(standardMonster.ID,
                                               standardMonster.Name,
-                                              standardMonster.Damage,
                                               standardMonster.MaximumHitPoints,
+                                              standardMonster.Damage,
                                               standardMonster.RewardExperiencePoints,
                                               standardMonster.RewardGold);
                 foreach (var lootItem in standardMonster.LootTable)

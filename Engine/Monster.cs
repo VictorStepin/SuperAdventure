@@ -13,8 +13,8 @@ namespace Engine
 
         public Monster(int id,
                        string name,
-                       int damage, 
                        int hitPoints, 
+                       int damage, 
                        int rewardExperiencePoints, 
                        int rewardGold)
             : base(hitPoints)
