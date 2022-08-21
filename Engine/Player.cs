@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Engine
 {
@@ -25,51 +26,21 @@ namespace Engine
             if (location.ItemRequiredToEnter == null)
                 return true;
 
-            foreach (var ii in Inventory)
-                if (ii.Item.ID == location.ItemRequiredToEnter.ID)
-                    return true;
-
-            return false;
+            return Inventory.Exists(ii => ii.Item.ID == location.ItemRequiredToEnter.ID);
         }
 
         public bool HasQuest(Quest quest)
-        {
-            foreach (var pq in Quests)
-                if (pq.Details.ID == quest.ID)
-                    return true;
-
-            return false;
-        }
+            => Quests.Exists(pq => pq.Details.ID == quest.ID);
 
         public bool CompletedQuest(Quest quest)
-        {
-            foreach (var pq in Quests)
-                if (pq.Details.ID == quest.ID)
-                    if (pq.IsCompleted) return true;
-
-            return false;
-        }
+            => Quests.Exists(pq => pq.Details.ID == quest.ID && pq.IsCompleted);
 
         public bool HasAllCompletionItems(Quest quest)
         {
             foreach (var qci in quest.QuestCompletionItems)
-            {
-                var foundItemInInventory = false;
-                foreach (var ii in Inventory)
-                {
-                    if (qci.Details.ID == ii.Item.ID)
-                    {
-                        foundItemInInventory = true;
-                        if (ii.Quantity < qci.Quantity)
-                            return false;
-                        break;
-                    }
-                }
-
-                if (!foundItemInInventory)
+                if (!Inventory.Exists(ii => ii.Item.ID == qci.Details.ID && ii.Quantity >= qci.Quantity))
                     return false;
-            }
-            
+
             return true;
         }
 
@@ -77,41 +48,25 @@ namespace Engine
         {
             foreach (var qci in quest.QuestCompletionItems)
             {
-                foreach (var ii in Inventory)
-                {
-                    if (qci.Details.ID == ii.Item.ID)
-                    {
-                        ii.Quantity -= qci.Quantity;
-                        break;
-                    }
-                }
+                var itemToRemove = Inventory.SingleOrDefault(ii => ii.Quantity >= qci.Quantity);
+
+                if (itemToRemove != null) itemToRemove.Quantity -= qci.Quantity;
             }
         }
 
         public void MarkQuestCompleted(Quest quest)
         {
-            foreach (var pq in Quests)
-            {
-                if (pq.Details.ID == quest.ID)
-                {
-                    pq.IsCompleted = true;
-                    return;
-                }
-            }
+            var questToMark = Quests.SingleOrDefault(pq => pq.Details.ID == quest.ID);
+            
+            if (questToMark != null) questToMark.IsCompleted = true;
         }
 
-        public void AddItemToInventory(Item itemToAdd)
+        public void AddItemToInventory(Item item)
         {
-            foreach (var ii in Inventory)
-            {
-                if (ii.Item.ID == itemToAdd.ID)
-                {
-                    ii.Quantity++;
-                    return;
-                }
-            }
-
-            Inventory.Add(new InventoryItem(itemToAdd, 1));
+            var availableItem = Inventory.SingleOrDefault(ii => ii.Item.ID == item.ID);
+            
+            if (availableItem != null) availableItem.Quantity++;
+            else Inventory.Add(new InventoryItem(item, 1));
         }
     }
 }
