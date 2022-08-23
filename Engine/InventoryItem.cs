@@ -4,18 +4,18 @@ namespace Engine
 {
     public class InventoryItem : IComparable
     {
-        public Item Item { get; set; }
+        public Item Details { get; set; }
         public int Quantity { get; set; }
 
-        public InventoryItem(Item item, int quantity)
+        public InventoryItem(Item details, int quantity)
         {
-            Item = item;
+            Details = details;
             Quantity = quantity;
         }
 
         public int CompareTo(object obj)
         {
-            if (obj is InventoryItem ii) return Item.Name.CompareTo(ii.Item.Name);
+            if (obj is InventoryItem ii) return Details.Name.CompareTo(ii.Details.Name);
             else throw new ArgumentException("Incorrect parameter's value.");
         }
     }

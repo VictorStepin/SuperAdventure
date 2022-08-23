@@ -21,7 +21,7 @@ namespace SuperAdventure
             {
                 if (ii.Quantity > 0)
                 {
-                    dgvInventory.Rows.Add(new string[] { ii.Item.Name, ii.Quantity.ToString() });
+                    dgvInventory.Rows.Add(new string[] { ii.Details.Name, ii.Quantity.ToString() });
                 }
             }
         }

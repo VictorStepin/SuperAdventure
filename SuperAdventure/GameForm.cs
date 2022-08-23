@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Engine;
@@ -7,6 +8,8 @@ namespace SuperAdventure
 {
     public partial class GameForm : Form
     {
+        private const string PLAYER_DATA_FILE_PATH = "playerData.xml";
+
         private string _message = "";
 
         private Player _player;
@@ -18,16 +21,17 @@ namespace SuperAdventure
         public GameForm()
         {
             InitializeComponent();
-            inventoryForm = new InventoryForm();
-            _player = new Player(World.PlayerMaximumHitPoints,
-                                 World.PlayerStartigGold,
-                                 World.PlayerStargingExperiencePoints);
-            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_RUSTY_SWORD));
-            _player.AddItemToInventory(World.ItemByID(World.ITEM_ID_ADVENTURER_PASS));
 
+            inventoryForm = new InventoryForm();
             inventoryForm.SortButtonPressed += OnSortButtonClicked;
 
-            MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
+            if (File.Exists(PLAYER_DATA_FILE_PATH))
+                _player = Player.CreatePlayerFromXMLString(File.ReadAllText(PLAYER_DATA_FILE_PATH));
+            else
+                _player = Player.CreateDefaultPlayer();
+
+
+            UpdateUI();
             UpdateWeaponsSelector();
             UpdatePotionsSelector();
 
@@ -117,8 +121,6 @@ namespace SuperAdventure
 
                 _currentMonster = null;
             }
-
-            UpdateUI();
         }
 
         private void UpdateUI()
@@ -161,9 +163,9 @@ namespace SuperAdventure
             var weapons = new List<Weapon>();
             foreach (var ii in _player.Inventory)
             {
-                if (ii.Item is Weapon)
+                if (ii.Details is Weapon)
                 {
-                    weapons.Add((Weapon)ii.Item);
+                    weapons.Add((Weapon)ii.Details);
                 }
             }
 
@@ -185,9 +187,9 @@ namespace SuperAdventure
             var potions = new List<HealingPotion>();
             foreach (var ii in _player.Inventory)
             {
-                if (ii.Item is HealingPotion && ii.Quantity > 0)
+                if (ii.Details is HealingPotion && ii.Quantity > 0)
                 {
-                    potions.Add((HealingPotion)ii.Item);
+                    potions.Add((HealingPotion)ii.Details);
                 }
             }
 
@@ -230,30 +232,35 @@ namespace SuperAdventure
 
         private void btnQuit_Click(object sender, EventArgs e)
         {
+            File.WriteAllText("playerData.xml", _player.ToXmlString());
             Application.Exit();
         }
         
-        private void btnNorth_Click(object sender, System.EventArgs e)
+        private void btnNorth_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToNorth);
+            UpdateUI();
         }
 
-        private void btnEast_Click(object sender, System.EventArgs e)
+        private void btnEast_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToEast);
+            UpdateUI();
         }
 
-        private void btnSouth_Click(object sender, System.EventArgs e)
+        private void btnSouth_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToSouth);
+            UpdateUI();
         }
 
-        private void btnWest_Click(object sender, System.EventArgs e)
+        private void btnWest_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToWest);
+            UpdateUI();
         }
 
-        private void btnUseWeapon_Click(object sender, System.EventArgs e)
+        private void btnUseWeapon_Click(object sender, EventArgs e)
         {
             var currentWeapon = (Weapon)cbxWeapons.SelectedItem;
 
@@ -328,7 +335,7 @@ namespace SuperAdventure
 
             foreach (var ii in _player.Inventory)
             {
-                if (ii.Item.ID == currentPotion.ID)
+                if (ii.Details.ID == currentPotion.ID)
                 {
                     ii.Quantity--;
                     break;

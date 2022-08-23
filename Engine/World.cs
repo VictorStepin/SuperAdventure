@@ -4,7 +4,7 @@ namespace Engine
 {
     public static class World
     {
-        public const int PlayerMaximumHitPoints = 10;
+        public const int PlayerStartingMaximumHitPoints = 10;
         public const int PlayerStartigGold = 0;
         public const int PlayerStargingExperiencePoints = 0;
 
